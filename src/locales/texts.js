@@ -159,7 +159,7 @@ const texts = {
       testimonials: "آراء العملاء",
       contact: "تواصل معنا",
       cta: "ابدأ مشروعك",
-      logo: "هريكا ويب",
+      logo: " اسامه",
       changeLanguage: "تغيير اللغة",
       openMenu: "فتح القائمة",
       closeMenu: "إغلاق القائمة",
