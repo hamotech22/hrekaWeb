@@ -55,7 +55,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <div className="relative isolate mx-auto w-full max-w-360 overflow-hidden pb-16">
+    <div className="relative isolate mx-auto w-full max-w-360 overflow-hidden pb-16 cursor-pointer">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10 [background-image:linear-gradient(to_right,#0000000d_1px,transparent_1px),linear-gradient(to_bottom,#0000000d_1px,transparent_1px)] [background-size:48px_48px] [mask-image:radial-gradient(ellipse_70%_55%_at_50%_0%,black,transparent)]"
