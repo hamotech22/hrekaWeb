@@ -1,0 +1,119 @@
+import BTN from "../../components/button/BTN";
+
+const images = [
+  "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&w=800&q=85",
+  "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=800&q=85",
+  "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=800&q=85",
+  "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=85",
+  "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=85",
+  "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=85",
+  "https://images.unsplash.com/photo-1504707748692-419802cf939d?auto=format&fit=crop&w=800&q=85",
+  "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&w=800&q=85",
+];
+
+const columns = [
+  {
+    offset: "",
+    items: [
+      { index: 0, ratio: "aspect-4/5" },
+      { index: 4, ratio: "aspect-4/3" },
+    ],
+  },
+  {
+    offset: "sm:pt-12",
+    items: [
+      { index: 1, ratio: "aspect-4/3" },
+      { index: 5, ratio: "aspect-3/4" },
+    ],
+  },
+  {
+    offset: "sm:pt-24",
+    items: [
+      { index: 2, ratio: "aspect-square" },
+      { index: 6, ratio: "aspect-3/4" },
+    ],
+  },
+  {
+    offset: "sm:pt-8",
+    items: [
+      { index: 3, ratio: "aspect-4/5" },
+      { index: 7, ratio: "aspect-3/4" },
+    ],
+  },
+];
+
+function Card({ src, alt, ratio }) {
+  return (
+    <figure
+      className={`group relative overflow-hidden rounded-3xl bg-zinc-100 shadow-lg shadow-zinc-900/5 ring-1 ring-zinc-900/5 ${ratio}`}
+      data-aos="fade-up"
+    >
+      <img src={src} alt={alt} loading="lazy" className="size-full object-cover transition duration-700 ease-out group-hover:scale-105" />
+      <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-zinc-950/25 via-transparent to-transparent opacity-0 transition duration-500 group-hover:opacity-100" />
+    </figure>
+  );
+}
+
+export default function Hero() {
+  return (
+    <div className="relative isolate mx-auto w-full max-w-360 overflow-hidden pb-16">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10 [background-image:linear-gradient(to_right,#0000000d_1px,transparent_1px),linear-gradient(to_bottom,#0000000d_1px,transparent_1px)] [background-size:48px_48px] [mask-image:radial-gradient(ellipse_70%_55%_at_50%_0%,black,transparent)]"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 top-0 -z-10 h-72 w-160 max-w-full -translate-x-1/2 -translate-y-1/3 rounded-full bg-blue-400/20 blur-3xl"
+      />
+
+      {/* Intro */}
+      <section className="mx-auto max-w-4xl px-5 pt-14 text-center sm:pt-20" data-aos="fade-up">
+        <span
+          className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/70 px-3.5 py-1.5 text-xs font-medium text-zinc-600 shadow-sm backdrop-blur"
+          data-aos="fade-up"
+        >
+          <span className="relative flex size-2">
+            <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
+          </span>
+          Available for new commissions
+        </span>
+
+        <h1
+          className="mt-6 text-balance bg-linear-to-b from-zinc-950 to-zinc-600 bg-clip-text text-5xl font-semibold leading-[1.05] tracking-tight text-transparent sm:text-6xl lg:text-7xl"
+          data-aos="fade-up"
+        >
+          Images with intention.
+          <br className="hidden sm:block" /> Stories with presence.
+        </h1>
+
+        <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-7 text-zinc-600 sm:text-lg sm:leading-8" data-aos="fade-up">
+          I create considered photography for brands, people, and places, turning real moments into images that hold attention and stay
+          memorable.
+        </p>
+
+        <div className="mt-9 flex justify-center" data-aos="fade-up">
+          <a href="#projects">
+            <BTN>Start a project</BTN>
+          </a>
+        </div>
+      </section>
+
+      {/* Gallery */}
+      <section
+        id="portfolio"
+        className="mx-auto mt-14 grid w-full max-w-6xl grid-cols-2 gap-3 px-5 sm:mt-20 sm:grid-cols-4 sm:gap-5 sm:px-8"
+        data-aos="fade-up"
+        data-aos-delay="120"
+      >
+        {columns.map((column, columnIndex) => (
+          <div key={columnIndex} className={`flex flex-col gap-3 sm:gap-5 ${column.offset}`}>
+            {column.items.map(({ index, ratio }, itemIndex) => (
+              <Card key={index} src={images[index]} alt={`Project ${index + 1}`} ratio={ratio} />
+            ))}
+          </div>
+        ))}
+      </section>
+    </div>
+  );
+}

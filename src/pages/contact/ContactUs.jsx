@@ -1,0 +1,119 @@
+import { useEffect, useRef, useState } from "react";
+import axios from "axios";
+import BTN from "../../components/button/BTN";
+
+const API_URL = "http://localhost:3000";
+
+const inputClasses = "w-full rounded-2xl border border-zinc-200 bg-white/70 px-4 py-3 text-sm text-zinc-900 shadow-sm outline-none focus:border-zinc-300 focus:ring-2 focus:ring-blue-500/20";
+
+export default function ContactUs() {
+  // بيانات التواصل (إيميل وواتساب) اللي جاية من السيرفر
+  const [contact, setContact] = useState(null);
+
+  // حالة الإرسال: عادي / بيبعت / نجح / فشل
+  const [status, setStatus] = useState("idle");
+
+  // refs بتمسك قيمة كل حقل من غير ما نعمل re-render مع كل حرف
+  const nameRef = useRef(null);
+  const emailRef = useRef(null);
+  const messageRef = useRef(null);
+  const formRef = useRef(null);
+
+  // 1) هات بيانات التواصل أول ما الصفحة تفتح
+  useEffect(() => {
+    axios.get(`${API_URL}/contact`)
+         .then((res) => setContact(res.data))
+         .catch((err) => console.error("فشل تحميل بيانات التواصل:", err));
+  }, []);
+
+  // 2) لما يضغط "Send message"
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const name = nameRef.current.value;
+    const email = emailRef.current.value;
+    const message = messageRef.current.value;
+
+    if (!name || !message) {
+      setStatus("error");
+      return;
+    }
+
+    setStatus("sending");
+
+    try {
+      // بعت البيانات للسيرفر يحفظها في db.json
+      await axios.post(`${API_URL}/messages`, { name, email, message });
+
+      setStatus("success");
+      formRef.current.reset(); // فضّي الفورم
+    } catch (err) {
+      console.error("فشل إرسال الرسالة:", err);
+      setStatus("error");
+    }
+  };
+
+  return (
+    <section id="contact" className="mx-auto w-full max-w-360 px-5 py-20 sm:px-8 sm:py-28">
+      <div className="mx-auto max-w-4xl text-center">
+        <h2 className="text-4xl font-semibold text-zinc-950 sm:text-5xl">Have a story to photograph?</h2>
+        <p className="mx-auto mt-5 max-w-xl text-zinc-600 sm:text-lg">
+          Tell me about your idea in the form, or reach out directly by WhatsApp or email.
+        </p>
+      </div>
+
+      <div className="mx-auto mt-14 grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-5">
+        {/* الفورم */}
+        <form
+          ref={formRef}
+          onSubmit={handleSubmit}
+          className="flex flex-col gap-4 rounded-3xl bg-zinc-100 p-6 shadow-lg sm:col-span-3 sm:p-8"
+        >
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <input name="name" ref={nameRef} placeholder="Your name" className={inputClasses} />
+            <input name="email" type="email" ref={emailRef} placeholder="Your email" className={inputClasses} />
+          </div>
+
+          <textarea
+            name="message"
+            ref={messageRef}
+            placeholder="Tell me about your project..."
+            rows={5}
+            className={`${inputClasses} resize-none`}
+          />
+
+          <div className="mt-2 flex items-center gap-4">
+            <BTN type="submit" disabled={status === "sending"}>
+              {status === "sending" ? "Sending..." : "Send message"}
+            </BTN>
+
+            {status === "success" && <span className="text-sm font-medium text-emerald-600">تم إرسال رسالتك بنجاح!</span>}
+            {status === "error" && <span className="text-sm font-medium text-red-600">حصل خطأ، حاول تاني.</span>}
+          </div>
+        </form>
+
+        {/* بيانات التواصل المباشر */}
+        <div className="flex flex-col gap-4 sm:col-span-2">
+          {contact && (
+            <a
+              href={`https://wa.me/${contact.whatsappNumber}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-3xl bg-zinc-100 p-6 shadow-lg transition hover:bg-white"
+            >
+              <span className="block text-sm font-medium text-zinc-900">WhatsApp</span>
+              <span className="block text-sm text-zinc-500">Usually replies within minutes</span>
+            </a>
+          )}
+
+          {contact && (
+            <a href={`mailto:${contact.email}`} className="rounded-3xl bg-zinc-100 p-6 shadow-lg transition hover:bg-white">
+              <span className="block text-sm font-medium text-zinc-900">Email</span>
+              <span className="block truncate text-sm text-zinc-500">{contact.email}</span>
+            </a>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
