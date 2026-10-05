@@ -1,24 +1,9 @@
-import { Link } from "react-router-dom";
-
-const values = [
-  {
-    label: "Photograph with intent",
-    text: "Every frame has a purpose, from the light and composition to the feeling it leaves behind.",
-  },
-  {
-    label: "Make images useful",
-    text: "Beautiful photography should do more than look good. It should clarify a story and move people closer to a brand.",
-  },
-  {
-    label: "Keep the process clear",
-    text: "A focused process, thoughtful direction, and open communication make room for better images.",
-  },
-];
+import useLanguage from "../../context/useLanguage";
 
 const stats = [
-  { value: "120+", label: "Shoots completed" },
-  { value: "40+", label: "Clients photographed" },
-  { value: "6", label: "Years behind the camera" },
+  { value: "120+" },
+  { value: "40+" },
+  { value: "6" },
 ];
 
 const modern = {
@@ -29,6 +14,7 @@ const modern = {
 };
 
 export default function About() {
+  const { t } = useLanguage();
   return (
     <div className="bg-[#111111]">
       {/* Hero */}
@@ -42,11 +28,10 @@ export default function About() {
             {...modern}
             className="text-balance bg-linear-to-b from-white to-zinc-400 bg-clip-text text-5xl font-semibold leading-[1.05] tracking-tight text-transparent sm:text-6xl"
           >
-            Photography that makes people pause
+            {t.about.title}
           </h1>
           <p {...modern} className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-8 text-zinc-400">
-            Hreka is a photography practice built around honest observation, strong composition, and images that give every subject a clear
-            point of view.
+            {t.about.intro}
           </p>
         </div>
       </section>
@@ -57,22 +42,16 @@ export default function About() {
           <div {...modern} className="overflow-hidden rounded-3xl ring-1 ring-white/10">
             <img
               src="https://framerusercontent.com/images/ObEFqtxxeCEXbYIqoHXoq1ez8TM.webp"
-              alt="Photographer working on a shoot"
+              alt={t.about.imageAlt}
               loading="lazy"
               className="h-96 w-full object-cover"
             />
           </div>
 
           <div {...modern} className="flex flex-col justify-center space-y-5">
-            <h2 className="text-3xl font-semibold tracking-tight text-white">The story behind the work</h2>
-            <p className="text-pretty text-base leading-7 text-zinc-400">
-              The work began with a love of observing the details people usually miss: a gesture, a texture, a quiet change in light. That
-              attention became a way of helping brands and people show up with more clarity.
-            </p>
-            <p className="text-pretty text-base leading-7 text-zinc-400">
-              Every shoot starts with a simple question: what should someone feel when they see this image? From there, we shape the light,
-              location, direction, and edit around that answer.
-            </p>
+            <h2 className="text-3xl font-semibold tracking-tight text-white">{t.about.storyTitle}</h2>
+            <p className="text-pretty text-base leading-7 text-zinc-400">{t.about.story1}</p>
+            <p className="text-pretty text-base leading-7 text-zinc-400">{t.about.story2}</p>
           </div>
         </div>
       </section>
@@ -81,14 +60,14 @@ export default function About() {
       <section className="px-5 py-16 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-6xl">
           <h2 {...modern} className="max-w-md text-3xl font-semibold tracking-tight text-white">
-            What guides every frame
+            {t.about.valuesTitle}
           </h2>
 
           <div className="mt-10 divide-y divide-white/10 border-y border-white/10">
-            {values.map((v, i) => (
-              <div key={v.label} {...modern} className="grid gap-2 py-7 sm:grid-cols-[240px_1fr] sm:gap-8">
-                <h3 className="text-lg font-medium text-white">{v.label}</h3>
-                <p className="text-pretty text-base leading-7 text-zinc-400">{v.text}</p>
+            {t.about.values.map(([label, text]) => (
+              <div key={label} {...modern} className="grid gap-2 py-7 sm:grid-cols-[240px_1fr] sm:gap-8">
+                <h3 className="text-lg font-medium text-white">{label}</h3>
+                <p className="text-pretty text-base leading-7 text-zinc-400">{text}</p>
               </div>
             ))}
           </div>
@@ -99,9 +78,9 @@ export default function About() {
       <section className="px-5 py-16 sm:px-6 sm:py-20">
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 sm:grid-cols-3">
           {stats.map((s, i) => (
-            <div key={s.label} {...modern}>
+            <div key={t.about.stats[i]} {...modern}>
               <div className="text-4xl font-semibold text-white sm:text-5xl">{s.value}</div>
-              <div className="mt-2 text-sm text-zinc-500">{s.label}</div>
+              <div className="mt-2 text-sm text-zinc-500">{t.about.stats[i]}</div>
             </div>
           ))}
         </div>

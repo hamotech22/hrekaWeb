@@ -1,29 +1,34 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import useLanguage from "../../context/useLanguage";
+import { translateContent } from "../../locales/contentTranslations";
 
 const focusRing = "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff4d00]";
 
 function ArrowIcon() {
   return (
-    <svg viewBox="0 0 256 256" aria-hidden="true" className="size-4 fill-current transition duration-200 group-hover:translate-x-1">
+    <svg viewBox="0 0 256 256" aria-hidden="true" className="size-4 fill-current transition duration-200 group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1">
       <path d="M221.66 133.66l-72 72a8 8 0 0 1-11.32-11.32L196.69 136H40a8 8 0 0 1 0-16h156.69l-58.35-58.34a8 8 0 0 1 11.32-11.32l72 72a8 8 0 0 1 0 11.32Z" />
     </svg>
   );
 }
 
-
 export default function Blog() {
+  const { t, lang } = useLanguage();
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/blogs")
-         .then((response) => setPosts(response.data))
-         .catch((error) => console.error("Failed to load blog posts:", error));
+    axios
+      .get("http://localhost:3000/blogs")
+      .then((response) => setPosts(response.data))
+      .catch((error) => console.error("Failed to load blog posts:", error));
   }, []);
 
-  const featured = posts.find((post) => post.featured);
-  const otherPosts = posts.filter((post) => !post.featured);
+  const translatedPosts = posts.map((post) => translateContent("blogs", post, lang));
+
+  const featured = translatedPosts.find((post) => post.featured);
+  const otherPosts = translatedPosts.filter((post) => !post.featured);
 
   return (
     <section className="w-full bg-white px-5 py-20 sm:py-28 md:px-10 lg:px-16">
@@ -31,12 +36,12 @@ export default function Blog() {
         {/* Header */}
         <div className="mb-12 flex flex-col gap-6 sm:mb-16 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl" data-aos="fade-up" data-aos-duration="700" data-aos-easing="ease-out-cubic" data-aos-offset="30">
-            <h2 className="text-balance bg-linear-to-b from-zinc-950 to-zinc-600 bg-clip-text text-4xl font-semibold leading-[1.1] tracking-tight text-transparent sm:text-5xl">
-              Notes on photography and visual direction
+            <h2 className="text-balance bg-linear-to-b from-zinc-950 to-zinc-600 bg-clip-text text-4xl font-semibold leading-[1.2] tracking-tight text-transparent sm:text-5xl">
+              {t.blog.homeTitle}
             </h2>
 
             <p className="mt-5 max-w-xl text-pretty text-base leading-7 text-zinc-600 sm:text-lg sm:leading-8">
-              Practical thoughts on shoots, portraits, visual identity, and building images with a point of view.
+              {t.blog.homeDescription}
             </p>
           </div>
 
@@ -48,7 +53,7 @@ export default function Blog() {
             data-aos-offset="30"
             className={`group inline-flex w-fit items-center gap-2.5 rounded-full border border-[#ff4d00]/40 px-5 py-2.5 text-sm font-medium text-[#ff4d00] transition hover:border-[#ff4d00] hover:bg-[#ff4d00] hover:text-white ${focusRing}`}
           >
-            View all notes
+            {t.blog.viewAll}
             <ArrowIcon />
           </Link>
         </div>
@@ -71,8 +76,8 @@ export default function Blog() {
               />
             </div>
 
-            <div className="flex flex-col px-2 pb-2 sm:px-4 md:py-4 lg:pr-8">
-              <h3 className="text-balance text-2xl font-semibold leading-[1.2] tracking-tight text-zinc-950 transition-colors group-hover:text-[#ff4d00] sm:text-3xl">
+            <div className="flex flex-col px-2 pb-2 sm:px-4 md:py-4 lg:pe-8">
+              <h3 className="text-balance text-2xl font-semibold leading-[1.3] tracking-tight text-zinc-950 transition-colors group-hover:text-[#ff4d00] sm:text-3xl">
                 {featured.title}
               </h3>
 
@@ -99,7 +104,6 @@ export default function Blog() {
             </div>
           </Link>
         )}
-
 
         {/* Other posts */}
         <div className="mt-12 grid grid-cols-1 gap-x-6 gap-y-12 sm:mt-16 sm:grid-cols-2 lg:grid-cols-4">

@@ -1,24 +1,17 @@
 
+import useLanguage from "../../context/useLanguage";
+
 const services = [
   {
-    title: "Brand Photography",
-    description:
-      "Create a visual language for your brand with a cohesive library of images for campaigns, websites, social media, and editorial use.",
     iconPaths: ["M12 2.5 19 6v6c0 4.5-2.8 8.5-7 10.5C7.8 20.5 5 16.5 5 12V6l7-3.5Z", "M9.5 9.5h5M9.5 12.5h5M9.5 15.5h3"],
   },
   {
-    title: "Product Photography",
-    description:
-      "Show your product at its best with clean, tactile imagery that communicates quality, detail, and the experience of using it.",
     iconPaths: [
       "M4 6.5A1.5 1.5 0 0 1 5.5 5h13A1.5 1.5 0 0 1 20 6.5v11A1.5 1.5 0 0 1 18.5 19h-13A1.5 1.5 0 0 1 4 17.5v-11Z",
       "M4 9.5h16M9 19v-9.5h6V19",
     ],
   },
   {
-    title: "Portraits & People",
-    description:
-      "Portraits with direction and character for founders, teams, artists, and anyone who wants to be represented with confidence.",
     iconPaths: [
       "M16 20v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2",
       "M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z",
@@ -26,16 +19,13 @@ const services = [
     ],
   },
   {
-    title: "Editorial & Campaigns",
-    description:
-      "Build a visual story across a campaign, launch, or publication with a thoughtful mix of atmosphere, detail, and narrative.",
     iconPaths: ["M8 8 4 12l4 4M16 8l4 4-4 4M13 5l-2 14"],
   },
 ];
 
 
 export default function Services() {
-  
+  const { t } = useLanguage();
 
   return (
     <section className="bg-white px-5 py-20 sm:py-28 md:px-10" data-aos="fade-up">
@@ -43,24 +33,20 @@ export default function Services() {
         {/* Intro (stays in view while the cards scroll on desktop) */}
         <div className="md:sticky md:top-28 md:self-start" data-aos="fade-up">
           <h2 className="max-w-md text-balance bg-linear-to-b from-zinc-950 to-zinc-600 bg-clip-text text-4xl font-semibold leading-[1.1] tracking-tight text-transparent sm:text-5xl">
-            Photography made for your point of view
+            {t.services.title}
           </h2>
 
           <div className="mt-6 max-w-md space-y-4 text-pretty text-base leading-7 text-zinc-600">
-            <p>I create purposeful images for brands, publications, products, and people who care about how their story is seen.</p>
-
-            <p>
-              From planning the visual direction to delivering a refined final gallery, every part of the process is shaped around your
-              subject, audience, and goals.
-            </p>
+            <p>{t.services.intro1}</p>
+            <p>{t.services.intro2}</p>
           </div>
         </div>
 
         {/* Service cards */}
         <div className="grid gap-4 sm:grid-cols-2">
-          {services.map((service) => (
+          {services.map((service, index) => (
             <div
-              key={service.title}
+              key={t.services.items[index][0]}
               className="rounded-3xl border border-zinc-200/70 bg-zinc-50 p-6 transition duration-300 hover:-translate-y-1 hover:bg-white hover:shadow-xl hover:shadow-zinc-900/5"
               data-aos="fade-up"
             >
@@ -81,9 +67,9 @@ export default function Services() {
                 </svg>
               </span>
 
-              <h3 className="mt-6 text-xl font-semibold tracking-tight text-zinc-950">{service.title}</h3>
+              <h3 className="mt-6 text-xl font-semibold tracking-tight text-zinc-950">{t.services.items[index][0]}</h3>
 
-              <p className="mt-3 text-sm leading-6 text-zinc-600">{service.description}</p>
+              <p className="mt-3 text-sm leading-6 text-zinc-600">{t.services.items[index][1]}</p>
             </div>
           ))}
         </div>

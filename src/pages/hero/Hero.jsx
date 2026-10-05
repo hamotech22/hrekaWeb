@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import BTN from "../../components/button/BTN";
+import useLanguage from "../../context/useLanguage";
 
 const columns = [
   {
@@ -46,6 +47,7 @@ function Card({ src, alt, ratio }) {
 }
 
 export default function Hero() {
+  const { t } = useLanguage();
   const [gallery, setGallery] = useState([]);
 
   useEffect(() => {
@@ -75,25 +77,24 @@ export default function Hero() {
             <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
             <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
           </span>
-          Available for new commissions
+          {t.hero.badge}
         </span>
 
         <h1
           className="mt-6 text-balance bg-linear-to-b from-zinc-950 to-zinc-600 bg-clip-text text-5xl font-semibold leading-[1.05] tracking-tight text-transparent sm:text-6xl lg:text-7xl"
           data-aos="fade-up"
         >
-          Images with intention.
-          <br className="hidden sm:block" /> Stories with presence.
+          {t.hero.title1}
+          <br className="hidden sm:block" /> {t.hero.title2}
         </h1>
 
         <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-7 text-zinc-600 sm:text-lg sm:leading-8" data-aos="fade-up">
-          I create considered photography for brands, people, and places, turning real moments into images that hold attention and stay
-          memorable.
+          {t.hero.desc}
         </p>
 
         <div className="mt-9 flex justify-center" data-aos="fade-up">
           <a href="#projects">
-            <BTN>Start a project</BTN>
+            <BTN>{t.hero.button}</BTN>
           </a>
         </div>
       </section>
@@ -108,7 +109,11 @@ export default function Hero() {
         {columns.map((column, columnIndex) => (
           <div key={columnIndex} className={`flex flex-col gap-3 sm:gap-5 ${column.offset}`}>
             {column.items.map(({ index, ratio }) => (
-              <div key={index}>{gallery[index] && <Card src={gallery[index].image} alt={gallery[index].alt} ratio={ratio} />}</div>
+              <div key={index}>
+                {gallery[index] && (
+                  <Card src={gallery[index].image} alt={t.hero.galleryAlt(index + 1, gallery[index].alt)} ratio={ratio} />
+                )}
+              </div>
             ))}
           </div>
         ))}

@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import useLanguage from "../../context/useLanguage";
 
 const focusRing = "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff4d00]";
 
 
 
 export default function Projects({ onLoadingChange }) {
+  const { t } = useLanguage();
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
@@ -28,17 +30,17 @@ export default function Projects({ onLoadingChange }) {
         >
           <div className="max-w-2xl" data-aos="fade-up" data-aos-duration="700" data-aos-offset="30">
             <h2 className="text-balance bg-linear-to-b from-zinc-950 to-zinc-600 bg-clip-text text-4xl font-semibold leading-[1.1] tracking-tight text-transparent sm:text-5xl">
-              Selected work, thoughtfully made
+              {t.projects.homeTitle}
             </h2>
 
             <p className="mt-5 max-w-xl text-pretty text-base leading-7 text-zinc-600 sm:text-lg sm:leading-8">
-              Explore a selection of visual stories created for brands, products, spaces, and people.
+              {t.projects.homeDescription}
             </p>
           </div>
 
           <Link to="/projects"className={`group inline-flex w-fit items-center gap-2.5 rounded-full border border-[#ff4d00]/40 px-5 py-2.5 text-sm font-medium text-[#ff4d00] transition hover:border-[#ff4d00] hover:bg-[#ff4d00] hover:text-white ${focusRing}`}>
-            View all
-            <svg viewBox="0 0 256 256" aria-hidden="true" className="size-4 fill-current transition duration-200 group-hover:translate-x-1">
+            {t.projects.viewAll}
+            <svg viewBox="0 0 256 256" aria-hidden="true" className="size-4 fill-current transition duration-200 group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1">
               <path d="M221.66 133.66l-72 72a8 8 0 0 1-11.32-11.32L196.69 136H40a8 8 0 0 1 0-16h156.69l-58.35-58.34a8 8 0 0 1 11.32-11.32l72 72a8 8 0 0 1 0 11.32Z" />
             </svg>
           </Link>
@@ -59,8 +61,8 @@ export default function Projects({ onLoadingChange }) {
                 <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-zinc-950/35 via-transparent to-transparent opacity-0 transition duration-500 group-hover:opacity-100" />
 
                 {/* Category chip */}
-                <span className="absolute left-4 top-4 rounded-full bg-white/80 px-3 py-1.5 text-xs font-medium text-zinc-800 shadow-sm backdrop-blur-md">
-                  {project.category}
+                <span className="absolute left-4 top-4 rounded-full bg-white/80 px-3 py-1.5 text-xs font-medium text-zinc-800 shadow-sm backdrop-blur-md rtl:left-auto rtl:right-4">
+                  {t.projects.categories[project.category] ?? project.category}
                 </span>
 
                 {/* Hover arrow */}
@@ -85,7 +87,7 @@ export default function Projects({ onLoadingChange }) {
                 <span className="pt-1 text-sm tabular-nums text-zinc-500">{project.year}</span>
               </div>
 
-              <p className="mt-3 px-1 text-sm leading-6 text-zinc-600">{project.description}</p>
+              <p className="mt-3 px-1 text-sm leading-6 text-zinc-600">{t.projects.descriptions[project.id] ?? project.description}</p>
             </Link>
           ))}
         </div>

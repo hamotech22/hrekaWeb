@@ -1,29 +1,29 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import useLanguage from "../../context/useLanguage";
 
 const navLinks = [
-  { label: "Home", href: "/" },
-  { label: "Services", href: "/services" },
-  { label: "Projects", href: "/projects" },
-  { label: "About", href: "/about" },
-  { label: "Blog", href: "/blog" },
-  { label: "Testimonials", href: "/testimonials" },
-  { label: "Contact", href: "/contact" },
+  { key: "home", href: "/" },
+  { key: "services", href: "/services" },
+  { key: "projects", href: "/projects" },
+  { key: "about", href: "/about" },
+  { key: "blog", href: "/blog" },
+  { key: "testimonials", href: "/testimonials" },
+  { key: "contact", href: "/contact" },
 ];
 
 const legalLinks = [
-  { label: "Privacy policy", href: "/contact" },
-  { label: "Terms & Conditions", href: "/contact" },
+  { key: "privacy", href: "/contact" },
+  { key: "terms", href: "/contact" },
 ];
 
 const focusRing = "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff4d00]";
 const API_URL = "http://localhost:3000/socials";
 
 export default function Footer() {
+  const { t } = useLanguage();
   const [socials, setSocial]=useState([]);
-  console.log(socials.data);
-
 
 useEffect(()=>{
    axios.get(API_URL).then((res)=> setSocial(res.data))
@@ -47,18 +47,18 @@ useEffect(()=>{
               <span className="absolute left-0 top-0 h-4 w-full rounded-b-full bg-white" />
               <span className="absolute bottom-0 left-0 h-4 w-full rounded-t-full bg-[#ff4d00]" />
             </span>
-            <span className="text-2xl font-semibold tracking-tight text-white">Hreka Web</span>
+            <span className="text-2xl font-semibold tracking-tight text-white">{t.nav.logo}</span>
           </Link>
 
           {/* Main menu */}
-          <nav aria-label="Footer" className="flex flex-wrap items-center justify-center gap-x-1 gap-y-2">
+          <nav aria-label={t.footer.navigation} className="flex flex-wrap items-center justify-center gap-x-1 gap-y-2">
             {navLinks.map((link) => (
               <Link
-                key={link.label}
+                key={link.key}
                 to={link.href}
                 className={`rounded-full px-4 py-2 text-base text-zinc-300 transition hover:bg-white/5 hover:text-white ${focusRing}`}
               >
-                {link.label}
+                {t.nav[link.key]}
               </Link>
             ))}
           </nav>
@@ -84,10 +84,10 @@ useEffect(()=>{
 
         {/* Bottom bar */}
         <div className="mt-14 flex flex-col-reverse items-center gap-6 border-t border-white/10 py-8 text-sm text-zinc-400 sm:mt-16 md:flex-row md:justify-between">
-          <div className="space-y-1 text-center md:text-left">
-            <p>Copyright © 2026 Hreka Web. All rights reserved.</p>
+          <div className="space-y-1 text-center md:text-start">
+            <p>{t.footer.copyright}</p>
             <p>
-              Photography portfolio designed and built with{" "}
+              {t.footer.credit}{" "}
               <a href={`mailto:hamotech22@gmail.com`} target="_blank" rel="noopener noreferrer" className="text-[#ff4d00] transition hover:text-white">
                 hamotech.
               </a>
@@ -96,8 +96,8 @@ useEffect(()=>{
 
           <div className="flex items-center gap-6">
             {legalLinks.map((link) => (
-              <Link key={link.label} to={link.href} className="transition hover:text-white">
-                {link.label}
+              <Link key={link.key} to={link.href} className="transition hover:text-white">
+                {t.footer[link.key]}
               </Link>
             ))}
           </div>

@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import useLanguage from "../../context/useLanguage";
+import { translateContent } from "../../locales/contentTranslations";
 
 const focusRing = "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff4d00]";
 
 export default function BlogList() {
+  const { t, lang } = useLanguage();
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -25,17 +28,19 @@ export default function BlogList() {
         {/* Header */}
         <div className="mb-12 max-w-2xl sm:mb-16" data-aos="fade-up" data-aos-duration="700" data-aos-offset="30">
           <h1 className="text-balance bg-linear-to-b from-zinc-950 to-zinc-600 bg-clip-text text-4xl font-semibold leading-[1.1] tracking-tight text-transparent sm:text-5xl">
-            Photography notes
+            {t.blog.listTitle}
           </h1>
 
           <p className="mt-5 max-w-xl text-pretty text-base leading-7 text-zinc-600 sm:text-lg sm:leading-8">
-            Ideas, references, and practical notes on making stronger images.
+            {t.blog.listDescription}
           </p>
         </div>
 
         {/* Posts grid */}
         <div className="grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post) => (
+          {posts.map((item) => {
+            const post = translateContent("blogs", item, lang);
+            return (
             <Link
               key={post.id}
               to={`/blog/${post.id}`}
@@ -63,7 +68,8 @@ export default function BlogList() {
                 {post.date}
               </time>
             </Link>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

@@ -1,4 +1,7 @@
+import useLanguage from "../../context/useLanguage";
+
 export default function CTA() {
+  const { t } = useLanguage();
   return (
     <section id="cta" className="w-full scroll-mt-24 bg-white px-5 py-20 sm:py-28 md:px-10" data-aos="fade-up">
       <div className="mx-auto max-w-6xl">
@@ -26,12 +29,11 @@ export default function CTA() {
               className="text-balance text-4xl font-semibold leading-[1.05] tracking-tight text-white sm:text-5xl md:text-6xl"
               data-aos="fade-up"
             >
-              Ready to give your story a stronger visual presence?
+              {t.cta.title}
             </h2>
 
             <p className="mt-6 max-w-2xl text-pretty text-base leading-7 text-white/90 sm:text-lg sm:leading-8" data-aos="fade-up">
-              Let’s create a body of photographs that feels considered, communicates clearly, and gives your brand or project room to be
-              remembered.
+              {t.cta.description}
             </p>
 
             <div className="mt-10 flex w-full max-w-md flex-col gap-3 sm:flex-row" data-aos="fade-up">
@@ -39,7 +41,7 @@ export default function CTA() {
                 href="./contact"
                 className="group flex h-14 flex-1 items-center justify-center gap-3 rounded-full bg-white px-6 text-sm font-semibold text-zinc-950 shadow-lg shadow-black/10 transition hover:bg-zinc-100 active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               >
-                Plan a shoot
+                {t.cta.action}
                 <svg
                   viewBox="0 0 256 256"
                   aria-hidden="true"

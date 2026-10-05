@@ -2,17 +2,17 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useParams, Navigate } from "react-router-dom";
 import ProjectCard from "./ProjectCard";
+import useLanguage from "../../context/useLanguage";
 
 const focusRing = "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff4d00]";
 
 export default function ProjectDetail() {
+  const { t } = useLanguage();
   const { id } = useParams();
   const [projects, setProjects] = useState(null);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/projects")
-      .then((response) => setProjects(response.data))
+    axios.get("http://localhost:3000/projects").then((response) => setProjects(response.data))
       .catch((error) => {
         console.error("Failed to load projects:", error);
         setProjects([]);
@@ -20,7 +20,7 @@ export default function ProjectDetail() {
   }, []);
 
   if (projects === null) {
-    return <p className="px-5 py-20 text-center text-zinc-600">Loading project...</p>;
+    return <p className="px-5 py-20 text-center text-zinc-600">{t.projects.loading}</p>;
   }
 
   const project = projects.find((p) => String(p.id) === String(id) || p.slug === id);
@@ -47,8 +47,8 @@ export default function ProjectDetail() {
           data-aos-offset="30"
           className={`inline-flex items-center gap-1.5 text-sm font-medium text-zinc-500 transition-colors hover:text-[#ff4d00] ${focusRing} rounded-md`}
         >
-          <span aria-hidden="true">←</span>
-          Back to projects
+          <span aria-hidden="true" className="rtl:rotate-180">←</span>
+          {t.projects.back}
         </Link>
 
         {/* Header */}
@@ -58,7 +58,7 @@ export default function ProjectDetail() {
           data-aos-duration="700"
           data-aos-offset="30"
         >
-          {project.category}
+          {t.projects.categories[project.category] ?? project.category}
         </span>
 
         <h1
@@ -90,13 +90,13 @@ export default function ProjectDetail() {
           data-aos-duration="700"
           data-aos-offset="30"
         >
-          {project.description}
+          {t.projects.descriptions[project.id] ?? project.description}
         </p>
 
         {/* More projects */}
         {related.length > 0 && (
           <div className="mt-20 border-t border-zinc-100 pt-12" data-aos="fade-up" data-aos-duration="700" data-aos-offset="30">
-            <h2 className="text-lg font-semibold tracking-tight text-zinc-950">More projects</h2>
+            <h2 className="text-lg font-semibold tracking-tight text-zinc-950">{t.projects.more}</h2>
 
             <div className="mt-6 grid gap-x-6 gap-y-14 sm:grid-cols-2">
               {related.map((p) => (

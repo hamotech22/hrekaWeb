@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useParams, Navigate } from "react-router-dom";
+import useLanguage from "../../context/useLanguage";
+import { translateContent } from "../../locales/contentTranslations";
 
 const focusRing = "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff4d00]";
 
 export default function BlogPost() {
+  const { t, lang } = useLanguage();
   const { id } = useParams();
   const [posts, setPosts] = useState(null);
 
@@ -19,14 +22,15 @@ export default function BlogPost() {
   }, []);
 
   if (posts === null) {
-    return <p className="px-5 py-20 text-center text-zinc-600">Loading article...</p>;
+    return <p className="px-5 py-20 text-center text-zinc-600">{t.blog.loading}</p>;
   }
 
-  const post = posts.find((p) => String(p.id) === String(id));
+  const foundPost = posts.find((p) => String(p.id) === String(id));
 
-  if (!post) {
+  if (!foundPost) {
     return <Navigate to="/blog" replace />;
   }
+  const post = translateContent("blogs", foundPost, lang);
 
   return (
     <article
@@ -43,8 +47,8 @@ export default function BlogPost() {
           data-aos-offset="30"
           className={`inline-flex items-center gap-1.5 text-sm font-medium text-zinc-500 transition-colors hover:text-[#ff4d00] ${focusRing} rounded-md`}
         >
-          <span aria-hidden="true">←</span>
-          Back to all notes
+          <span aria-hidden="true" className="rtl:rotate-180">←</span>
+          {t.blog.back}
         </Link>
 
         <div className="mt-8" data-aos="fade-up" data-aos-duration="700" data-aos-offset="30">

@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
+import useLanguage from "../../context/useLanguage";
 
 export default function DesignPartner() {
+  const { t } = useLanguage();
   return (
     <section className="bg-white px-5 py-20 sm:py-28 md:px-10" data-aos="fade-up">
       <div
@@ -29,19 +31,18 @@ export default function DesignPartner() {
             data-aos="fade-up"
           >
             <span className="size-1.5 rounded-full bg-[#ff4d00]" />
-            Subscription design
+            {t.designPartner.badge}
           </span>
 
           <h2
             className="mt-6 text-balance bg-linear-to-b from-white to-zinc-400 bg-clip-text text-4xl font-semibold leading-[1.05] tracking-tight text-transparent sm:text-5xl md:text-6xl"
             data-aos="fade-up"
           >
-            We are your design partner
+            {t.designPartner.title}
           </h2>
 
           <p className="mx-auto mt-5 max-w-xl text-pretty text-base leading-7 text-zinc-400 sm:text-lg sm:leading-8" data-aos="fade-up">
-            Collaborating to elevate your success with innovative subscription design, offering tailored solutions that grow with your
-            evolving needs and aspirations.
+            {t.designPartner.description}
           </p>
 
           <Link
@@ -49,11 +50,11 @@ export default function DesignPartner() {
             className="group/cta mt-9 inline-flex h-14 items-center justify-center gap-3 rounded-full bg-[#ff4d00] px-8 text-sm font-semibold text-white shadow-lg shadow-[#ff4d00]/30 transition hover:bg-[#e64305] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
             data-aos="fade-up"
           >
-            Book a call
+            {t.designPartner.action}
             <svg
               viewBox="0 0 256 256"
               aria-hidden="true"
-              className="size-4 fill-current transition duration-200 group-hover/cta:translate-x-1"
+              className="size-4 fill-current transition duration-200 group-hover/cta:translate-x-1 rtl:rotate-180 rtl:group-hover/cta:-translate-x-1"
             >
               <path d="M221.66 133.66l-72 72a8 8 0 0 1-11.32-11.32L196.69 136H40a8 8 0 0 1 0-16h156.69l-58.35-58.34a8 8 0 0 1 11.32-11.32l72 72a8 8 0 0 1 0 11.32Z" />
             </svg>
@@ -69,7 +70,7 @@ export default function DesignPartner() {
                 <path d="m5 10.5 3.2 3.2L15 6.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </span>
-            Tailored solutions
+            {t.designPartner.tailored}
           </div>
 
           <div className="absolute -right-4 top-48 z-10 hidden items-center gap-2.5 rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-sm font-medium text-white shadow-xl backdrop-blur-xl sm:flex lg:-right-12">
@@ -78,7 +79,7 @@ export default function DesignPartner() {
                 <path d="M4 14 9 9l3 3 5-6M13 6h4v4" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </span>
-            Grows with you
+            {t.designPartner.grows}
           </div>
 
           <div className="origin-bottom rounded-t-2xl border border-white/10 bg-zinc-900/80 p-2 pb-0 shadow-[0_-24px_80px_-24px_rgba(255,77,0,0.45)] backdrop-blur transition duration-700 ease-out [transform:perspective(1400px)_rotateX(7deg)] group-hover:[transform:perspective(1400px)_rotateX(0deg)]">
@@ -92,7 +93,7 @@ export default function DesignPartner() {
 
             <img
               src="https://framerusercontent.com/images/490ZoyFb3e8u4RIU1yfW4ywsWBc.webp"
-              alt="Design partner"
+              alt={t.designPartner.imageAlt}
               loading="lazy"
               className="aspect-16/9 w-full rounded-t-lg object-cover object-top"
             />

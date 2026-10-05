@@ -5,7 +5,7 @@ export default function BTN({ children, type = "button", disabled = false }) {
       disabled={disabled}
       className="mt-4 rounded-full bg-[#FF4D0A] px-5 py-3 text-[14px] text-white transition hover:bg-[#e64305] disabled:cursor-not-allowed disabled:opacity-60"
     >
-      {children} <span className="ml-2">→</span>
+      {children} <span className="ms-2 rtl:inline-block rtl:rotate-180">→</span>
     </button>
   );
 }

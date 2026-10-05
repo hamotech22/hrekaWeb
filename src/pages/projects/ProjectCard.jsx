@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
+import useLanguage from "../../context/useLanguage";
 
 const focusRing = "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff4d00]";
 
 export default function ProjectCard({ project }) {
+  const { t } = useLanguage();
   return (
     <Link to={`/projects/${project.id}`} className={`group block rounded-3xl ${focusRing}`}>
       <div className="relative aspect-3/2 overflow-hidden rounded-3xl bg-zinc-100 shadow-lg shadow-zinc-900/5 ring-1 ring-zinc-900/5">
@@ -15,8 +17,8 @@ export default function ProjectCard({ project }) {
 
         <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-zinc-950/35 via-transparent to-transparent opacity-0 transition duration-500 group-hover:opacity-100" />
 
-        <span className="absolute left-4 top-4 rounded-full bg-white/80 px-3 py-1.5 text-xs font-medium text-zinc-800 shadow-sm backdrop-blur-md">
-          {project.category}
+        <span className="absolute left-4 top-4 rounded-full bg-white/80 px-3 py-1.5 text-xs font-medium text-zinc-800 shadow-sm backdrop-blur-md rtl:left-auto rtl:right-4">
+          {t.projects.categories[project.category] ?? project.category}
         </span>
 
         <span

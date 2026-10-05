@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ProjectCard from "./ProjectCard";
+import useLanguage from "../../context/useLanguage";
 
 export default function ProjectsList() {
+  const { t } = useLanguage();
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
@@ -23,11 +25,11 @@ export default function ProjectsList() {
         {/* Header */}
         <div className="mb-12 max-w-2xl sm:mb-16" data-aos="fade-up" data-aos-duration="700" data-aos-offset="30">
           <h1 className="text-balance bg-linear-to-b from-zinc-950 to-zinc-600 bg-clip-text text-4xl font-semibold leading-[1.1] tracking-tight text-transparent sm:text-5xl">
-            Selected projects
+            {t.projects.listTitle}
           </h1>
 
           <p className="mt-5 max-w-xl text-pretty text-base leading-7 text-zinc-600 sm:text-lg sm:leading-8">
-            A selection of visual stories created for brands, products, spaces, and people.
+            {t.projects.listDescription}
           </p>
         </div>
 
