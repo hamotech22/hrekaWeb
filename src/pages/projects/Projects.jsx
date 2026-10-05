@@ -49,12 +49,12 @@ export default function Projects({ onLoadingChange }) {
           {projects.slice(-4).map((project) => (
             <Link key={project.id} to={`/projects/${project.id}`} className={`group block rounded-3xl ${focusRing}`} data-aos="fade-up">
               <div className="relative aspect-3/2 overflow-hidden rounded-3xl bg-zinc-100 shadow-lg shadow-zinc-900/5 ring-1 ring-zinc-900/5">
-                {/* <img
+                <img
                   src={project.image}
                   alt={project.title}
                   loading="lazy"
                   className="size-full object-cover transition duration-700 ease-out group-hover:scale-105"
-                /> */}
+                />
 
                 <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-zinc-950/35 via-transparent to-transparent opacity-0 transition duration-500 group-hover:opacity-100" />
 

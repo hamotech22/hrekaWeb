@@ -7,7 +7,7 @@ export default function ProjectCard({ project }) {
     <Link to={`/projects/${project.id}`} className={`group block rounded-3xl ${focusRing}`}>
       <div className="relative aspect-3/2 overflow-hidden rounded-3xl bg-zinc-100 shadow-lg shadow-zinc-900/5 ring-1 ring-zinc-900/5">
         <img
-          // src={project.image}
+          src={project.image}
           alt={project.title}
           loading="lazy"
           className="size-full object-cover transition duration-700 ease-out group-hover:scale-105"

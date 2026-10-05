@@ -67,6 +67,16 @@
 			"description": "A focused visual study exploring light, texture, color, and form."
 		}
 	],
+	"gallery": [
+	{ "id": 1, "image": "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&w=800&q=85", "alt": "Gallery image 1" },
+	{ "id": 2, "image": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=800&q=85", "alt": "Gallery image 2" },
+	{ "id": 3, "image": "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=800&q=85", "alt": "Gallery image 3" },
+	{ "id": 4, "image": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=85", "alt": "Gallery image 4" },
+	{ "id": 5, "image": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=85", "alt": "Gallery image 5" },
+	{ "id": 6, "image": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=85", "alt": "Gallery image 6" },
+	{ "id": 7, "image": "https://images.unsplash.com/photo-1504707748692-419802cf939d?auto=format&fit=crop&w=800&q=85", "alt": "Gallery image 7" },
+	{ "id": 8, "image": "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&w=800&q=85", "alt": "Gallery image 8" }
+],
 
 	"blogs": [
 		{
@@ -121,14 +131,9 @@
 			"content": "<p>The smallest details often carry the most feeling: a hand in motion, a worn surface, a pause between expressions. Look closely and let those details guide the frame.</p>"
 		}
 	],
-
-
 	"services": [
 		
 	],
-
-
-
 	"socials": [
 		{
     "name": "Facebook",

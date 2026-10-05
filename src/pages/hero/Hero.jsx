@@ -1,15 +1,6 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
 import BTN from "../../components/button/BTN";
-
-const images = [
-  "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&w=800&q=85",
-  "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=800&q=85",
-  "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=800&q=85",
-  "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=85",
-  "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=85",
-  "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=85",
-  "https://images.unsplash.com/photo-1504707748692-419802cf939d?auto=format&fit=crop&w=800&q=85",
-  "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&w=800&q=85",
-];
 
 const columns = [
   {
@@ -55,6 +46,14 @@ function Card({ src, alt, ratio }) {
 }
 
 export default function Hero() {
+  const [gallery, setGallery] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:3000/gallery").then((res) => {
+      setGallery(res.data);
+    });
+  }, []);
+
   return (
     <div className="relative isolate mx-auto w-full max-w-360 overflow-hidden pb-16">
       <div
@@ -108,8 +107,8 @@ export default function Hero() {
       >
         {columns.map((column, columnIndex) => (
           <div key={columnIndex} className={`flex flex-col gap-3 sm:gap-5 ${column.offset}`}>
-            {column.items.map(({ index, ratio }, itemIndex) => (
-              <Card key={index} src={images[index]} alt={`Project ${index + 1}`} ratio={ratio} />
+            {column.items.map(({ index, ratio }) => (
+              <div key={index}>{gallery[index] && <Card src={gallery[index].image} alt={gallery[index].alt} ratio={ratio} />}</div>
             ))}
           </div>
         ))}
