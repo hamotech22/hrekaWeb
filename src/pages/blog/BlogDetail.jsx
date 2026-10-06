@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useParams, Navigate } from "react-router-dom";
 import useLanguage from "../../context/useLanguage";
-import { translateContent } from "../../locales/contentTranslations";
 
 const focusRing = "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff4d00]";
 
 export default function BlogPost() {
-  const { t, lang } = useLanguage();
+  const { t } = useLanguage();
   const { id } = useParams();
   const [posts, setPosts] = useState(null);
 
@@ -30,7 +29,7 @@ export default function BlogPost() {
   if (!foundPost) {
     return <Navigate to="/blog" replace />;
   }
-  const post = translateContent("blogs", foundPost, lang);
+  const post = { ...foundPost, ...(t.blog.posts?.[foundPost.id] ?? {}) };
 
   return (
     <article
@@ -47,7 +46,9 @@ export default function BlogPost() {
           data-aos-offset="30"
           className={`inline-flex items-center gap-1.5 text-sm font-medium text-zinc-500 transition-colors hover:text-[#ff4d00] ${focusRing} rounded-md`}
         >
-          <span aria-hidden="true" className="rtl:rotate-180">←</span>
+          <span aria-hidden="true" className="rtl:rotate-180">
+            ←
+          </span>
           {t.blog.back}
         </Link>
 

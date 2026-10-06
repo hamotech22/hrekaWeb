@@ -2,20 +2,36 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import useLanguage from "../../context/useLanguage";
-import { translateContent } from "../../locales/contentTranslations";
 
 const focusRing = "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff4d00]";
 
 function ArrowIcon() {
   return (
-    <svg viewBox="0 0 256 256" aria-hidden="true" className="size-4 fill-current transition duration-200 group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1">
+    <svg
+      viewBox="0 0 256 256"
+      aria-hidden="true"
+      className="size-4 fill-current transition duration-200 group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1"
+    >
       <path d="M221.66 133.66l-72 72a8 8 0 0 1-11.32-11.32L196.69 136H40a8 8 0 0 1 0-16h156.69l-58.35-58.34a8 8 0 0 1 11.32-11.32l72 72a8 8 0 0 1 0 11.32Z" />
     </svg>
   );
 }
 
+function localizePost(post, translations) {
+  const translation = translations?.[post.id];
+  if (!translation) return post;
+
+  const { authorRole, ...rest } = translation;
+  const localized = { ...post, ...rest };
+
+  if (post.author && authorRole) {
+    localized.author = { ...post.author, role: authorRole };
+  }
+  return localized;
+}
+
 export default function Blog() {
-  const { t, lang } = useLanguage();
+  const { t } = useLanguage();
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -25,7 +41,7 @@ export default function Blog() {
       .catch((error) => console.error("Failed to load blog posts:", error));
   }, []);
 
-  const translatedPosts = posts.map((post) => translateContent("blogs", post, lang));
+  const translatedPosts = posts.map((post) => localizePost(post, t.blog.posts));
 
   const featured = translatedPosts.find((post) => post.featured);
   const otherPosts = translatedPosts.filter((post) => !post.featured);
@@ -40,9 +56,7 @@ export default function Blog() {
               {t.blog.homeTitle}
             </h2>
 
-            <p className="mt-5 max-w-xl text-pretty text-base leading-7 text-zinc-600 sm:text-lg sm:leading-8">
-              {t.blog.homeDescription}
-            </p>
+            <p className="mt-5 max-w-xl text-pretty text-base leading-7 text-zinc-600 sm:text-lg sm:leading-8">{t.blog.homeDescription}</p>
           </div>
 
           <Link

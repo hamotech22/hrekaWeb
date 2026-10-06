@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import useLanguage from "../../context/useLanguage";
-import { translateContent } from "../../locales/contentTranslations";
 
 const focusRing = "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff4d00]";
 
 export default function BlogList() {
-  const { t, lang } = useLanguage();
+  const { t } = useLanguage();
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -31,43 +30,41 @@ export default function BlogList() {
             {t.blog.listTitle}
           </h1>
 
-          <p className="mt-5 max-w-xl text-pretty text-base leading-7 text-zinc-600 sm:text-lg sm:leading-8">
-            {t.blog.listDescription}
-          </p>
+          <p className="mt-5 max-w-xl text-pretty text-base leading-7 text-zinc-600 sm:text-lg sm:leading-8">{t.blog.listDescription}</p>
         </div>
 
         {/* Posts grid */}
         <div className="grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
           {posts.map((item) => {
-            const post = translateContent("blogs", item, lang);
+            const post = { ...item, ...(t.blog.posts?.[item.id] ?? {}) };
             return (
-            <Link
-              key={post.id}
-              to={`/blog/${post.id}`}
-              className={`group flex flex-col rounded-2xl ${focusRing}`}
-              data-aos="fade-up"
-              data-aos-duration="700"
-              data-aos-offset="30"
-            >
-              <div className="aspect-5/4 overflow-hidden rounded-2xl bg-zinc-100 ring-1 ring-zinc-900/5">
-                <img
-                  src={post.image}
-                  alt={post.title}
-                  loading="lazy"
-                  className="size-full object-cover transition duration-700 ease-out group-hover:scale-105"
-                />
-              </div>
+              <Link
+                key={post.id}
+                to={`/blog/${post.id}`}
+                className={`group flex flex-col rounded-2xl ${focusRing}`}
+                data-aos="fade-up"
+                data-aos-duration="700"
+                data-aos-offset="30"
+              >
+                <div className="aspect-5/4 overflow-hidden rounded-2xl bg-zinc-100 ring-1 ring-zinc-900/5">
+                  <img
+                    src={post.image}
+                    alt={post.title}
+                    loading="lazy"
+                    className="size-full object-cover transition duration-700 ease-out group-hover:scale-105"
+                  />
+                </div>
 
-              <h2 className="mt-5 text-lg font-semibold leading-snug tracking-tight text-zinc-950 transition-colors group-hover:text-[#ff4d00]">
-                {post.title}
-              </h2>
+                <h2 className="mt-5 text-lg font-semibold leading-snug tracking-tight text-zinc-950 transition-colors group-hover:text-[#ff4d00]">
+                  {post.title}
+                </h2>
 
-              <p className="mt-2 line-clamp-3 text-sm leading-6 text-zinc-600">{post.excerpt}</p>
+                <p className="mt-2 line-clamp-3 text-sm leading-6 text-zinc-600">{post.excerpt}</p>
 
-              <time dateTime={post.isoDate} className="mt-auto pt-5 text-sm text-zinc-500">
-                {post.date}
-              </time>
-            </Link>
+                <time dateTime={post.isoDate} className="mt-auto pt-5 text-sm text-zinc-500">
+                  {post.date}
+                </time>
+              </Link>
             );
           })}
         </div>
