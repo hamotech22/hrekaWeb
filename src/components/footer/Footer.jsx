@@ -18,48 +18,73 @@ const legalLinks = [
   { key: "terms", href: "/contact" },
 ];
 
-const focusRing = "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff4d00]";
+const focusRing =
+  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff4d00]";
 
-// ✏️ تعديل: الرابط بقى من Strapi
-const API_URL = "http://localhost:1337/api/socials";
+const SOCIALS_URL = "http://localhost:1337/api/socials";
+const CONTACT_URL = "http://localhost:1337/api/my-contact";
 
 export default function Footer() {
-  const { t } = useLanguage();
-  const [socials, setSocial] = useState([]);
+  const { t, language, lang } = useLanguage();
+  const currentLang = language ?? lang ?? "en";
+
+  const [socials, setSocials] = useState([]);
+  const [contact, setContact] = useState(null);
 
   useEffect(() => {
     axios
-      // ✏️ تعديل: أضفنا timeout
-      .get(API_URL, { timeout: 8000 })
+      .get(SOCIALS_URL, { timeout: 8000 })
       .then((res) => {
-        // ✏️ تعديل: Strapi بيغلف الرد في data، ونتأكد إنها مصفوفة
         const list = res.data?.data ?? res.data;
-        setSocial(Array.isArray(list) ? list : []);
+        setSocials(Array.isArray(list) ? list : []);
       })
-      .catch((error) => console.error("Failed to load socials links:", error));
+      .catch((error) => console.error("Failed to load socials:", error));
   }, []);
 
+  useEffect(() => {
+    axios
+      .get(CONTACT_URL, { timeout: 8000 })
+      .then((res) => {
+        setContact(res.data?.data ?? res.data ?? null);
+      })
+      .catch((error) => console.error("Failed to load contact info:", error));
+  }, []);
+
+  const address =
+    currentLang === "ar"
+      ? contact?.address_ar || contact?.address || ""
+      : contact?.address || contact?.address_ar || "";
+
   return (
-    <footer className="relative isolate w-full overflow-hidden bg-[#111111] px-5 pt-16 sm:px-6 sm:pt-20">
+    <footer className="relative z-10 isolate w-full overflow-hidden bg-[#111111] px-5 pt-16 sm:px-6 sm:pt-20">
       {/* Background glow */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-40 left-1/2 -z-10 size-96 -translate-x-1/2 rounded-full bg-[#ff4d00]/15 blur-3xl"
+        className="pointer-events-none absolute left-1/2 top-0 -z-10 h-64 w-64 -translate-x-1/2 rounded-full bg-[#ff4d00]/10 blur-3xl"
       />
 
-      <div className="mx-auto max-w-6xl">
+      <div className="relative mx-auto max-w-6xl">
         <div className="flex flex-col items-center gap-10 text-center">
           {/* Logo */}
-          <Link to="/" className={`flex items-center gap-3 rounded-lg ${focusRing}`}>
+          <Link
+            to="/"
+            className={`flex items-center gap-3 rounded-lg ${focusRing}`}
+          >
             <span className="relative block size-9">
               <span className="absolute left-0 top-0 h-4 w-full rounded-b-full bg-white" />
               <span className="absolute bottom-0 left-0 h-4 w-full rounded-t-full bg-[#ff4d00]" />
             </span>
-            <span className="text-2xl font-semibold tracking-tight text-white">{t.nav.logo}</span>
+
+            <span className="text-2xl font-semibold tracking-tight text-white">
+              {t.nav.logo}
+            </span>
           </Link>
 
           {/* Main menu */}
-          <nav aria-label={t.footer.navigation} className="flex flex-wrap items-center justify-center gap-x-1 gap-y-2">
+          <nav
+            aria-label={t.footer.navigation}
+            className="flex flex-wrap items-center justify-center gap-x-1 gap-y-2"
+          >
             {navLinks.map((link) => (
               <Link
                 key={link.key}
@@ -71,11 +96,31 @@ export default function Footer() {
             ))}
           </nav>
 
+          {/* Address */}
+          {address && (
+            <address className="flex items-center justify-center gap-2 text-base not-italic text-zinc-300">
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                className="size-5 shrink-0 fill-none stroke-[#ff4d00] stroke-2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+
+              <span>
+                <span className="sr-only">{t.footer.address}: </span>
+                {address}
+              </span>
+            </address>
+          )}
+
           {/* Social icons */}
           <div className="flex flex-wrap items-center justify-center gap-3">
             {socials.map((social) => (
               <a
-                // ✏️ تعديل: key بقى id بدل name
                 key={social.id}
                 href={social.href}
                 target="_blank"
@@ -83,7 +128,11 @@ export default function Footer() {
                 aria-label={social.name}
                 className={`grid size-11 place-items-center rounded-full border border-white/10 text-zinc-400 transition duration-200 hover:-translate-y-0.5 hover:border-[#ff4d00] hover:bg-[#ff4d00] hover:text-white ${focusRing}`}
               >
-                <svg viewBox="0 0 256 256" aria-hidden="true" className="size-5 fill-current">
+                <svg
+                  viewBox="0 0 256 256"
+                  aria-hidden="true"
+                  className="size-5 fill-current"
+                >
                   <path d={social.path} />
                 </svg>
               </a>
@@ -95,12 +144,11 @@ export default function Footer() {
         <div className="mt-14 flex flex-col-reverse items-center gap-6 border-t border-white/10 py-8 text-sm text-zinc-400 sm:mt-16 md:flex-row md:justify-between">
           <div className="space-y-1 text-center md:text-start">
             <p>{t.footer.copyright}</p>
+
             <p>
               {t.footer.credit}{" "}
               <a
-                href={`mailto:hamotech22@gmail.com`}
-                target="_blank"
-                rel="noopener noreferrer"
+                href="mailto:hamotech22@gmail.com"
                 className="text-[#ff4d00] transition hover:text-white"
               >
                 hamotech.
@@ -110,7 +158,11 @@ export default function Footer() {
 
           <div className="flex items-center gap-6">
             {legalLinks.map((link) => (
-              <Link key={link.key} to={link.href} className="transition hover:text-white">
+              <Link
+                key={link.key}
+                to={link.href}
+                className="transition hover:text-white"
+              >
                 {t.footer[link.key]}
               </Link>
             ))}
@@ -120,3 +172,4 @@ export default function Footer() {
     </footer>
   );
 }
+

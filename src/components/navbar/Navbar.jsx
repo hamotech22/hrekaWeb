@@ -1,6 +1,12 @@
+// ✏️ تعديل: أضفنا useEffect
 import { Link } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+// ✏️ تعديل: استيراد axios
+import axios from "axios";
 import { LangContext } from "../../context/LangContext";
+
+// ✏️ تعديل: عنوان Strapi
+const STRAPI_URL = "http://localhost:1337";
 
 const navItems = [
   { key: "home", href: "/" },
@@ -16,9 +22,11 @@ const desktopLink =
 
 const mobileLink = "block rounded-xl px-4 py-3 text-base font-medium text-zinc-700 transition hover:bg-zinc-100 hover:text-zinc-950";
 
+const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
 function Logo({ name }) {
   return (
-    <Link to="/" className="flex items-center gap-2 text-lg font-semibold tracking-tight text-zinc-950">
+    <Link to="/" onClick={scrollToTop} className="flex items-center gap-2 text-lg font-semibold tracking-tight text-zinc-950">
       <span className="relative block h-4.75 w-4.25 before:absolute before:top-0 before:h-2 before:w-4.25 before:rounded-b-full before:bg-zinc-950 after:absolute after:bottom-0 after:h-2 after:w-4.25 after:rounded-t-full after:bg-[#FF4D0A]" />
       {name}
     </Link>
@@ -29,6 +37,22 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { lang, setLang, t } = useContext(LangContext);
   const close = () => setOpen(false);
+
+  // ✏️ تعديل: حالة لحفظ رابط الـ CV
+  const [cvUrl, setCvUrl] = useState(null);
+
+  // ✏️ تعديل: جلب الـ CV من Strapi (ويتحدث لما اللغة تتغير)
+  useEffect(() => {
+    axios
+      .get(`${STRAPI_URL}/api/my-cv?populate=*`, { timeout: 8000 })
+      .then((res) => {
+        const data = res.data?.data;
+        // لو اللغة عربي ويوجد ملف عربي نستخدمه، وإلا الإنجليزي
+        const file = (lang === "ar" && data?.cv_ar) || data?.cv;
+        setCvUrl(file?.url ? STRAPI_URL + file.url : null);
+      })
+      .catch((err) => console.error("Failed to load CV:", err));
+  }, [lang]);
 
   return (
     <header className="sticky top-0 z-50 px-3 pt-3 sm:px-5 sm:pt-4">
@@ -42,7 +66,7 @@ export default function Navbar() {
           {/* Desktop links */}
           <div className="hidden items-center gap-1 md:flex">
             {navItems.map((item) => (
-              <Link key={item.key} to={item.href} className={desktopLink}>
+              <Link key={item.key} to={item.href} onClick={item.key === "home" ? scrollToTop : undefined} className={desktopLink}>
                 {t.nav[item.key]}
               </Link>
             ))}
@@ -50,56 +74,53 @@ export default function Navbar() {
 
           {/* Actions */}
           <div className="flex items-center gap-2">
-            {/* Language button */}
-            {/* <button
+            <button
               type="button"
+              dir="ltr"
               onClick={() => setLang(lang === "en" ? "ar" : "en")}
               aria-label={t.nav.changeLanguage}
-              className="inline-flex h-10 items-center gap-1.5 rounded-full px-3 text-sm font-medium text-zinc-700 transition hover:bg-zinc-900/5"
+              className="relative grid h-9 w-22 grid-cols-2 items-center rounded-full bg-zinc-900/5 p-1 text-xs font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF4D0A]"
             >
-              <span className="text-base">🌐</span>
-              {lang === "en" ? "AR" : "EN"}
-            </button> */}
-
-
-            <button
-  type="button"
-  dir="ltr"
-  onClick={() => setLang(lang === "en" ? "ar" : "en")}
-  aria-label={t.nav.changeLanguage}
-  className="relative grid h-9 w-22 grid-cols-2 items-center rounded-full bg-zinc-900/5 p-1 text-xs font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF4D0A]"
->
-  <span
-    aria-hidden="true"
-    className={`absolute inset-y-1 start-1 w-[calc(50%-4px)] rounded-full bg-zinc-950 shadow-sm transition-transform duration-300 ease-out ${
-      lang === "ar" ? "translate-x-full" : ""
-    }`}
-  />
-  <span className={`relative z-10 text-center transition-colors duration-300 ${lang === "en" ? "text-white" : "text-zinc-500"}`}>
-    EN
-  </span>
-  <span className={`relative z-10 text-center transition-colors duration-300 ${lang === "ar" ? "text-white" : "text-zinc-500"}`}>
-    AR
-  </span>
-</button>
-
-
-            <Link
-              to="/contact"
-              className="group/cta inline-flex items-center gap-1.5 rounded-full bg-[#FF4D0A] px-4 py-2.5 text-sm font-medium text-white shadow-md shadow-orange-500/25 transition hover:bg-[#e64305] active:scale-[0.98]"
-            >
-              {t.nav.cta}
-              <svg
-                viewBox="0 0 20 20"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.75"
+              <span
                 aria-hidden="true"
-                className="size-4 transition duration-200 group-hover/cta:translate-x-0.5 rtl:rotate-180 rtl:group-hover/cta:-translate-x-0.5"
+                className={`absolute inset-y-1 start-1 w-[calc(50%-4px)] rounded-full bg-zinc-950 shadow-sm transition-transform duration-300 ease-out ${
+                  lang === "ar" ? "translate-x-full" : ""
+                }`}
+              />
+              <span
+                className={`relative z-10 text-center transition-colors duration-300 ${lang === "en" ? "text-white" : "text-zinc-500"}`}
               >
-                <path d="M4 10h12m-5-5 5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </Link>
+                EN
+              </span>
+              <span
+                className={`relative z-10 text-center transition-colors duration-300 ${lang === "ar" ? "text-white" : "text-zinc-500"}`}
+              >
+                AR
+              </span>
+            </button>
+
+            {/* ✏️ تعديل: بدل <Link to="/contact"> بقى <a> يفتح ملف الـ CV، ويظهر فقط لو الملف موجود */}
+            {cvUrl && (
+              <a
+                href={cvUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+                className="group/cta inline-flex items-center gap-1.5 rounded-full bg-[#FF4D0A] px-4 py-2.5 text-sm font-medium text-white shadow-md shadow-orange-500/25 transition hover:bg-[#e64305] active:scale-[0.98]"
+              >
+                {t.nav.cv}
+                <svg
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.75"
+                  aria-hidden="true"
+                  className="size-4 transition duration-200 group-hover/cta:translate-x-0.5 rtl:rotate-180 rtl:group-hover/cta:-translate-x-0.5"
+                >
+                  <path d="M4 10h12m-5-5 5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </a>
+            )}
 
             {/* Mobile toggle */}
             <button
@@ -129,12 +150,21 @@ export default function Navbar() {
           }`}
         >
           {navItems.map((item) => (
-            <Link key={item.key} to={item.href} onClick={close} className={mobileLink}>
+            <Link
+              key={item.key}
+              to={item.href}
+              onClick={() => {
+                close();
+                if (item.key === "home") scrollToTop();
+              }}
+              className={mobileLink}
+            >
               {t.nav[item.key]}
             </Link>
           ))}
         </div>
       </div>
+    
     </header>
   );
 }

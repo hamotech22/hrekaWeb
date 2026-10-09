@@ -10,6 +10,7 @@ import Projects from "../projects/Projects";
 import Services from "../services/Services";
 import Testimonials from "../testimonials/Testimonials";
 import DesignPartner from "../designPartner/DesignPartner";
+// import BackToTop from "../../components/backToTop/BackToTop";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -32,6 +33,7 @@ export default function Home() {
           <Loading />
         </div>
       )}
+      {/* <BackToTop/> */}
     </>
   );
 }

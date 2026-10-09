@@ -1,22 +1,12 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
 import useLanguage from "../../context/useLanguage";
 
-const testimonials = [
-  {
-    name: "Sarah Williams",
-    rating: 4,
-    image: "https://framerusercontent.com/images/5Ym5otFwTnEz8s94qOCgGcQGZc.jpeg",
-  },
-  {
-    name: "James Wilson",
-    rating: 5,
-    image: "https://framerusercontent.com/images/14rtiESLR0xfbkwOjILh4g7zsc.jpeg",
-  },
-  {
-    name: "Emily Johnson",
-    rating: 4,
-    image: "https://framerusercontent.com/images/KbGh6muZKEqDCaiIUlm4nulF0c.jpeg",
-  },
-];
+// ✏️ تعديل: عنوان Strapi
+const STRAPI_URL = "http://localhost:1337";
+
+// ✏️ تعديل: يختار العربي لو موجود، وإلا الإنجليزي
+const pick = (item, field, lang) => (lang === "ar" && item[`${field}_ar`]) || item[field];
 
 function Stars({ rating, label }) {
   return (
@@ -36,7 +26,32 @@ function Stars({ rating, label }) {
 }
 
 export default function Testimonials() {
-  const { t } = useLanguage();
+  // ✏️ تعديل: سحبنا lang
+  const { t, lang } = useLanguage();
+
+  // ✏️ تعديل: البيانات بقت من state بدل المصفوفة الثابتة
+  const [testimonials, setTestimonials] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  // ✏️ تعديل: جلب التعليقات من Strapi
+  useEffect(() => {
+    axios
+      .get(`${STRAPI_URL}/api/testimonials?populate[avatar]=true`, { timeout: 8000 })
+      .then((res) => {
+        const list = res.data?.data ?? res.data;
+        setTestimonials(Array.isArray(list) ? list : []);
+      })
+      .catch((err) => {
+        console.error("Failed to load testimonials:", err);
+        setError(true);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  // ✏️ تعديل: لو فشل الجلب أو مفيش تعليقات، نخفي القسم كله (أنضف من قسم فاضي)
+  if (!loading && (error || testimonials.length === 0)) return null;
+
   return (
     <section className="bg-zinc-100 px-5 py-20 sm:py-28 md:px-10" data-aos="fade-up">
       <div className="mx-auto max-w-6xl">
@@ -51,31 +66,35 @@ export default function Testimonials() {
           </p>
         </div>
 
+        {/* ✏️ تعديل: حالة التحميل */}
+        {loading && <p className="text-center text-zinc-500">{lang === "ar" ? "جاري التحميل..." : "Loading..."}</p>}
+
         {/* Testimonial cards */}
         <div className="grid gap-5 md:grid-cols-3">
-          {testimonials.map((testimonial, index) => (
+          {testimonials.map((item) => (
             <article
-              key={testimonial.name}
+              // ✏️ تعديل: key بقى id
+              key={item.id}
               className="group flex flex-col rounded-3xl bg-white p-7 shadow-sm ring-1 ring-zinc-900/5 transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-zinc-900/5"
               data-aos="fade-up"
             >
-              <Stars rating={testimonial.rating} label={t.testimonials.rating(testimonial.rating)} />
+              <Stars rating={item.rating ?? 5} label={t.testimonials.rating(item.rating ?? 5)} />
 
               <blockquote className="mb-8 mt-6 text-pretty text-base leading-7 text-zinc-800 sm:text-lg sm:leading-8">
-                “{t.testimonials.quotes[index]}”
+                “{pick(item, "comment", lang)}”
               </blockquote>
 
               <footer className="mt-auto flex items-center gap-3 border-t border-zinc-100 pt-6">
                 <img
-                  src={testimonial.image}
-                  alt={testimonial.name}
+                  src={item.avatar?.url ? STRAPI_URL + item.avatar.url : "/images/about.webp"}
+                  alt={pick(item, "name", lang)}
                   loading="lazy"
                   className="size-11 rounded-full object-cover ring-2 ring-white grayscale transition duration-300 group-hover:grayscale-0"
                 />
 
                 <div>
-                  <p className="text-sm font-semibold text-zinc-950">{testimonial.name}</p>
-                  <p className="mt-0.5 text-sm text-zinc-500">{t.testimonials.roles[index]}</p>
+                  <p className="text-sm font-semibold text-zinc-950">{pick(item, "name", lang)}</p>
+                  <p className="mt-0.5 text-sm text-zinc-500">{pick(item, "role", lang)}</p>
                 </div>
               </footer>
             </article>
