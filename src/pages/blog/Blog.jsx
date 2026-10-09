@@ -3,7 +3,23 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import useLanguage from "../../context/useLanguage";
 
+const STRAPI_URL = "http://localhost:1337";
+
 const focusRing = "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff4d00]";
+
+const pick = (item, field, lang) => (lang === "ar" && item[`${field}_ar`]) || item[field];
+
+const formatDate = (date, lang) =>
+  date
+    ? new Date(date).toLocaleDateString(lang === "ar" ? "ar" : "en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      })
+    : "";
+
+const getImageUrl = (image) => (image?.url ? STRAPI_URL + image.url : "");
+const getAvatarUrl = (avatar) => (avatar?.url ? STRAPI_URL + avatar.url : "/images/about.webp");
 
 function ArrowIcon() {
   return (
@@ -17,34 +33,23 @@ function ArrowIcon() {
   );
 }
 
-function localizePost(post, translations) {
-  const translation = translations?.[post.id];
-  if (!translation) return post;
-
-  const { authorRole, ...rest } = translation;
-  const localized = { ...post, ...rest };
-
-  if (post.author && authorRole) {
-    localized.author = { ...post.author, role: authorRole };
-  }
-  return localized;
-}
-
 export default function Blog() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/blogs")
-      .then((response) => setPosts(response.data))
+      .get(`${STRAPI_URL}/api/my-blogs?populate[authors][populate]=avatar&populate[image]=true`)
+      .then((response) => {
+        const list = response.data?.data ?? response.data;
+        setPosts(Array.isArray(list) ? list : []);
+      })
       .catch((error) => console.error("Failed to load blog posts:", error));
   }, []);
 
-  const translatedPosts = posts.map((post) => localizePost(post, t.blog.posts));
-
-  const featured = translatedPosts.find((post) => post.featured);
-  const otherPosts = translatedPosts.filter((post) => !post.featured);
+  const featured = posts.find((post) => post.featured);
+  const otherPosts = posts.filter((post) => post.id !== featured?.id);
+  const featuredAuthor = featured?.authors?.[0] ?? featured?.author;
 
   return (
     <section className="w-full bg-white px-5 py-20 sm:py-28 md:px-10 lg:px-16">
@@ -84,35 +89,37 @@ export default function Blog() {
           >
             <div className="aspect-3/2 overflow-hidden rounded-2xl bg-zinc-200">
               <img
-                src={featured.image}
-                alt={featured.title}
+                src={getImageUrl(featured.image)}
+                alt={pick(featured, "title", lang)}
                 className="size-full object-cover transition duration-700 ease-out group-hover:scale-105"
               />
             </div>
 
             <div className="flex flex-col px-2 pb-2 sm:px-4 md:py-4 lg:pe-8">
               <h3 className="text-balance text-2xl font-semibold leading-[1.3] tracking-tight text-zinc-950 transition-colors group-hover:text-[#ff4d00] sm:text-3xl">
-                {featured.title}
+                {pick(featured, "title", lang)}
               </h3>
 
-              <p className="mt-4 text-pretty text-base leading-7 text-zinc-600">{featured.excerpt}</p>
+              <p className="mt-4 text-pretty text-base leading-7 text-zinc-600">{pick(featured, "excerpt", lang)}</p>
 
               <div className="mt-8 flex items-center justify-between gap-4 border-t border-zinc-200 pt-6">
-                <div className="flex items-center gap-3">
-                  <img
-                    src={featured.author.avatar}
-                    alt={featured.author.name}
-                    className="size-11 rounded-full object-cover ring-2 ring-white"
-                  />
+                {featuredAuthor && (
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={getAvatarUrl(featuredAuthor.avatar)}
+                      alt={pick(featuredAuthor, "name", lang)}
+                      className="size-11 rounded-full object-cover ring-2 ring-white"
+                    />
 
-                  <div>
-                    <p className="text-sm font-medium text-zinc-950">{featured.author.name}</p>
-                    <p className="mt-0.5 text-sm text-zinc-500">{featured.author.role}</p>
+                    <div>
+                      <p className="text-sm font-medium text-zinc-950">{pick(featuredAuthor, "name", lang)}</p>
+                      <p className="mt-0.5 text-sm text-zinc-500">{pick(featuredAuthor, "role", lang) || pick(featuredAuthor, "description", lang)}</p>
+                    </div>
                   </div>
-                </div>
+                )}
 
-                <time dateTime={featured.isoDate} className="text-sm text-zinc-500">
-                  {featured.date}
+                <time dateTime={featured.date} className="text-sm text-zinc-500">
+                  {formatDate(featured.date, lang)}
                 </time>
               </div>
             </div>
@@ -133,21 +140,21 @@ export default function Blog() {
             >
               <div className="aspect-5/4 overflow-hidden rounded-2xl bg-zinc-100 ring-1 ring-zinc-900/5">
                 <img
-                  src={post.image}
-                  alt={post.title}
+                  src={getImageUrl(post.image)}
+                  alt={pick(post, "title", lang)}
                   loading="lazy"
                   className="size-full object-cover transition duration-700 ease-out group-hover:scale-105"
                 />
               </div>
 
               <h3 className="mt-5 text-lg font-semibold leading-snug tracking-tight text-zinc-950 transition-colors group-hover:text-[#ff4d00]">
-                {post.title}
+                {pick(post, "title", lang)}
               </h3>
 
-              <p className="mt-2 line-clamp-3 text-sm leading-6 text-zinc-600">{post.excerpt}</p>
+              <p className="mt-2 line-clamp-3 text-sm leading-6 text-zinc-600">{pick(post, "excerpt", lang)}</p>
 
-              <time dateTime={post.isoDate} className="mt-auto pt-5 text-sm text-zinc-500">
-                {post.date}
+              <time dateTime={post.date} className="mt-auto pt-5 text-sm text-zinc-500">
+                {formatDate(post.date, lang)}
               </time>
             </Link>
           ))}

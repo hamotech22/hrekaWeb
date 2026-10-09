@@ -3,16 +3,34 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import useLanguage from "../../context/useLanguage";
 
+const STRAPI_URL = "http://localhost:1337";
+
 const focusRing = "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff4d00]";
 
+const pick = (item, field, lang) => (lang === "ar" && item[`${field}_ar`]) || item[field];
+
+const formatDate = (date, lang) =>
+  date
+    ? new Date(date).toLocaleDateString(lang === "ar" ? "ar" : "en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      })
+    : "";
+
+const getAvatarUrl = (avatar) => (avatar?.url ? STRAPI_URL + avatar.url : "/images/about.webp");
+
 export default function BlogList() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/blogs")
-      .then((response) => setPosts(response.data))
+      .get(`${STRAPI_URL}/api/my-blogs?populate[authors][populate]=avatar&populate[image]=true`)
+      .then((response) => {
+        const list = response.data?.data ?? response.data;
+        setPosts(Array.isArray(list) ? list : []);
+      })
       .catch((error) => console.error("Failed to load blog posts:", error));
   }, []);
 
@@ -35,36 +53,53 @@ export default function BlogList() {
 
         {/* Posts grid */}
         <div className="grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-          {posts.map((item) => {
-            const post = { ...item, ...(t.blog.posts?.[item.id] ?? {}) };
+          {posts.map((post) => {
+            const author = post.authors?.[0] ?? post.author;
             return (
-              <Link
-                key={post.id}
-                to={`/blog/${post.id}`}
-                className={`group flex flex-col rounded-2xl ${focusRing}`}
-                data-aos="fade-up"
-                data-aos-duration="700"
-                data-aos-offset="30"
-              >
-                <div className="aspect-5/4 overflow-hidden rounded-2xl bg-zinc-100 ring-1 ring-zinc-900/5">
+            <Link
+              key={post.id}
+              to={`/blog/${post.id}`}
+              className={`group flex flex-col rounded-2xl ${focusRing}`}
+              data-aos="fade-up"
+              data-aos-duration="700"
+              data-aos-offset="30"
+            >
+              <div className="aspect-5/4 overflow-hidden rounded-2xl bg-zinc-100 ring-1 ring-zinc-900/5">
+                <img
+                  src={post.image?.url ? STRAPI_URL + post.image.url : ""}
+                  alt={pick(post, "title", lang)}
+                  loading="lazy"
+                  className="size-full object-cover transition duration-700 ease-out group-hover:scale-105"
+                />
+              </div>
+
+              <h2 className="mt-5 text-lg font-semibold leading-snug tracking-tight text-zinc-950 transition-colors group-hover:text-[#ff4d00]">
+                {pick(post, "title", lang)}
+              </h2>
+
+              <p className="mt-2 line-clamp-3 text-sm leading-6 text-zinc-600">{pick(post, "excerpt", lang)}</p>
+
+              <time dateTime={post.date} className="mt-auto pt-5 text-sm text-zinc-500">
+                {formatDate(post.date, lang)}
+              </time>
+
+              {author && (
+                <div className="mt-3 flex items-center gap-2">
                   <img
-                    src={post.image}
-                    alt={post.title}
+                    src={getAvatarUrl(author.avatar)}
+                    alt={pick(author, "name", lang)}
                     loading="lazy"
-                    className="size-full object-cover transition duration-700 ease-out group-hover:scale-105"
+                    className="size-7 rounded-full object-cover"
                   />
+                  <div>
+                    <p className="text-sm font-medium text-zinc-800">{pick(author, "name", lang)}</p>
+                    {(author.role || author.description || author.description_ar) && (
+                      <p className="text-xs text-zinc-500">{pick(author, "role", lang) || pick(author, "description", lang)}</p>
+                    )}
+                  </div>
                 </div>
-
-                <h2 className="mt-5 text-lg font-semibold leading-snug tracking-tight text-zinc-950 transition-colors group-hover:text-[#ff4d00]">
-                  {post.title}
-                </h2>
-
-                <p className="mt-2 line-clamp-3 text-sm leading-6 text-zinc-600">{post.excerpt}</p>
-
-                <time dateTime={post.isoDate} className="mt-auto pt-5 text-sm text-zinc-500">
-                  {post.date}
-                </time>
-              </Link>
+              )}
+            </Link>
             );
           })}
         </div>

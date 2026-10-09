@@ -3,13 +3,14 @@ import axios from "axios";
 import BTN from "../../components/button/BTN";
 import useLanguage from "../../context/useLanguage";
 
-const API_URL = "http://localhost:3000";
+const STRAPI_URL = "http://localhost:1337";
 
-const inputClasses = "w-full rounded-2xl border border-zinc-200 bg-white/70 px-4 py-3 text-sm text-zinc-900 shadow-sm outline-none focus:border-zinc-300 focus:ring-2 focus:ring-blue-500/20";
+const inputClasses =
+  "w-full rounded-2xl border border-zinc-200 bg-white/70 px-4 py-3 text-sm text-zinc-900 shadow-sm outline-none focus:border-zinc-300 focus:ring-2 focus:ring-blue-500/20";
 
 export default function ContactUs() {
   const { t } = useLanguage();
-  // بيانات التواصل (إيميل وواتساب) اللي جاية من السيرفر
+  // بيانات التواصل (إيميل وواتساب) اللي جاية من Strapi
   const [contact, setContact] = useState(null);
 
   // حالة الإرسال: عادي / بيبعت / نجح / فشل
@@ -23,9 +24,10 @@ export default function ContactUs() {
 
   // 1) هات بيانات التواصل أول ما الصفحة تفتح
   useEffect(() => {
-    axios.get(`${API_URL}/contact`)
-         .then((res) => setContact(res.data))
-         .catch((err) => console.error(t.contact.loadError, err));
+    axios
+      .get(`${STRAPI_URL}/api/contact`)
+      .then((res) => setContact(res.data?.data ?? res.data))
+      .catch((err) => console.error(t.contact.loadError, err));
   }, [t.contact.loadError]);
 
   // 2) لما يضغط "Send message"
@@ -44,8 +46,8 @@ export default function ContactUs() {
     setStatus("sending");
 
     try {
-      // بعت البيانات للسيرفر يحفظها في db.json
-      await axios.post(`${API_URL}/messages`, { name, email, message });
+      // Strapi لازم البيانات تكون جوه { data: {...} }
+      await axios.post(`${STRAPI_URL}/api/messages`, { data: { name, email, message } }, { timeout: 8000 });
 
       setStatus("success");
       formRef.current.reset(); // فضّي الفورم
@@ -59,9 +61,7 @@ export default function ContactUs() {
     <section id="contact" className="mx-auto w-full max-w-360 px-5 py-20 sm:px-8 sm:py-28">
       <div className="mx-auto max-w-4xl text-center">
         <h2 className="text-4xl font-semibold text-zinc-950 sm:text-5xl">{t.contact.title}</h2>
-        <p className="mx-auto mt-5 max-w-xl text-zinc-600 sm:text-lg">
-          {t.contact.description}
-        </p>
+        <p className="mx-auto mt-5 max-w-xl text-zinc-600 sm:text-lg">{t.contact.description}</p>
       </div>
 
       <div className="mx-auto mt-14 grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-5">
@@ -73,9 +73,8 @@ export default function ContactUs() {
         >
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <input name="name" ref={nameRef} placeholder={t.contact.name} aria-label={t.contact.name} className={inputClasses} />
-            <input name="email" type="email" ref={emailRef} placeholder={t.contact.email} aria-label={t.contact.email} className={inputClasses} />
+            <input name="email"type="email"ref={emailRef} placeholder={t.contact.email}aria-label={t.contact.email} className={inputClasses}/>
           </div>
-
           <textarea
             name="message"
             ref={messageRef}
@@ -97,24 +96,23 @@ export default function ContactUs() {
 
         {/* بيانات التواصل المباشر */}
         <div className="flex flex-col gap-4 sm:col-span-2">
-          {contact && (
-            <a
-              href={`https://wa.me/${contact.whatsappNumber}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-3xl bg-zinc-100 p-6 shadow-lg transition hover:bg-white"
-            >
-              <span className="block text-sm font-medium text-zinc-900">{t.contact.whatsappLabel}</span>
-              <span className="block text-sm text-zinc-500">{t.contact.whatsapp}</span>
-            </a>
-          )}
+          <a
+            href={`https://wa.me/${String(contact?.whatsapp ?? "").replace(/\D/g, "")}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-3xl bg-zinc-100 p-6 shadow-lg transition hover:bg-white"
+          >
+            <span className="block text-sm font-medium text-zinc-900">{t.contact.whatsappLabel}</span>
+            <span className="block text-sm text-zinc-500">{contact?.whatsapp ?? t.contact.whatsapp}</span>
+          </a>
 
-          {contact && (
-            <a href={`mailto:${contact.email}`} className="rounded-3xl bg-zinc-100 p-6 shadow-lg transition hover:bg-white">
-              <span className="block text-sm font-medium text-zinc-900">{t.contact.emailLabel}</span>
-              <span className="block truncate text-sm text-zinc-500">{contact.email}</span>
-            </a>
-          )}
+          <a
+            href={contact?.email ? `mailto:${contact.email}` : undefined}
+            className="rounded-3xl bg-zinc-100 p-6 shadow-lg transition hover:bg-white"
+          >
+            <span className="block text-sm font-medium text-zinc-900">{t.contact.emailLabel}</span>
+            <span className="block truncate text-sm text-zinc-500">{contact?.email ?? "—"}</span>
+          </a>
         </div>
       </div>
     </section>

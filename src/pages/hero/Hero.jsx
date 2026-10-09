@@ -34,6 +34,8 @@ const columns = [
   },
 ];
 
+const Strapi_URL = "http://localhost:1337/api/galelery?populate=*";
+
 function Card({ src, alt, ratio }) {
   return (
     <figure
@@ -41,6 +43,7 @@ function Card({ src, alt, ratio }) {
       data-aos="fade-up"
     >
       <img src={src} alt={alt} loading="lazy" className="size-full object-cover transition duration-700 ease-out group-hover:scale-105" />
+
       <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-zinc-950/25 via-transparent to-transparent opacity-0 transition duration-500 group-hover:opacity-100" />
     </figure>
   );
@@ -51,8 +54,10 @@ export default function Hero() {
   const [gallery, setGallery] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/gallery").then((res) => {
-      setGallery(res.data);
+    axios.get(Strapi_URL).then((res) => {
+      const data = res.data.data;
+
+      setGallery([data.image_1, data.image_2, data.image_3, data.image_4, data.image_5, data.image_6, data.image_7, data.image_8]);
     });
   }, []);
 
@@ -62,6 +67,7 @@ export default function Hero() {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -z-10 [background-image:linear-gradient(to_right,#0000000d_1px,transparent_1px),linear-gradient(to_bottom,#0000000d_1px,transparent_1px)] [background-size:48px_48px] [mask-image:radial-gradient(ellipse_70%_55%_at_50%_0%,black,transparent)]"
       />
+
       <div
         aria-hidden="true"
         className="pointer-events-none absolute left-1/2 top-0 -z-10 h-72 w-160 max-w-full -translate-x-1/2 -translate-y-1/3 rounded-full bg-blue-400/20 blur-3xl"
@@ -77,6 +83,7 @@ export default function Hero() {
             <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-400 opacity-75" />
             <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
           </span>
+
           {t.hero.badge}
         </span>
 
@@ -111,7 +118,7 @@ export default function Hero() {
             {column.items.map(({ index, ratio }) => (
               <div key={index}>
                 {gallery[index] && (
-                  <Card src={gallery[index].image} alt={t.hero.galleryAlt(index + 1, gallery[index].alt)} ratio={ratio} />
+                  <Card src={`http://localhost:1337${gallery[index].url}`} alt={t.hero.galleryAlt(index + 1)} ratio={ratio} />
                 )}
               </div>
             ))}

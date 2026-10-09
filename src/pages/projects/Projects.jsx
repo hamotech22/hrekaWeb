@@ -3,17 +3,21 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import useLanguage from "../../context/useLanguage";
 
+const STRAPI_URL = "http://localhost:1337";
+
 const focusRing = "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff4d00]";
 
-
+const pick = (item, field, lang) => (lang === "ar" && item[`${field}_ar`]) || item[field];
 
 export default function Projects({ onLoadingChange }) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
     onLoadingChange?.(true);
-    axios.get("http://localhost:3000/projects").then((res) => setProjects(res.data))
+    axios
+      .get(`${STRAPI_URL}/api/my-projects?populate[image]=true`)
+      .then((res) => setProjects(res.data?.data ?? res.data))
       .catch((error) => console.error("Failed to load projects:", error))
       .finally(() => onLoadingChange?.(false));
   }, [onLoadingChange]);
@@ -38,9 +42,16 @@ export default function Projects({ onLoadingChange }) {
             </p>
           </div>
 
-          <Link to="/projects"className={`group inline-flex w-fit items-center gap-2.5 rounded-full border border-[#ff4d00]/40 px-5 py-2.5 text-sm font-medium text-[#ff4d00] transition hover:border-[#ff4d00] hover:bg-[#ff4d00] hover:text-white ${focusRing}`}>
+          <Link
+            to="/projects"
+            className={`group inline-flex w-fit items-center gap-2.5 rounded-full border border-[#ff4d00]/40 px-5 py-2.5 text-sm font-medium text-[#ff4d00] transition hover:border-[#ff4d00] hover:bg-[#ff4d00] hover:text-white ${focusRing}`}
+          >
             {t.projects.viewAll}
-            <svg viewBox="0 0 256 256" aria-hidden="true" className="size-4 fill-current transition duration-200 group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1">
+            <svg
+              viewBox="0 0 256 256"
+              aria-hidden="true"
+              className="size-4 fill-current transition duration-200 group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1"
+            >
               <path d="M221.66 133.66l-72 72a8 8 0 0 1-11.32-11.32L196.69 136H40a8 8 0 0 1 0-16h156.69l-58.35-58.34a8 8 0 0 1 11.32-11.32l72 72a8 8 0 0 1 0 11.32Z" />
             </svg>
           </Link>
@@ -52,8 +63,8 @@ export default function Projects({ onLoadingChange }) {
             <Link key={project.id} to={`/projects/${project.id}`} className={`group block rounded-3xl ${focusRing}`} data-aos="fade-up">
               <div className="relative aspect-3/2 overflow-hidden rounded-3xl bg-zinc-100 shadow-lg shadow-zinc-900/5 ring-1 ring-zinc-900/5">
                 <img
-                  src={project.image}
-                  alt={project.title}
+                  src={project.image?.url ? STRAPI_URL + project.image.url : ""}
+                  alt={pick(project, "title", lang)}
                   loading="lazy"
                   className="size-full object-cover transition duration-700 ease-out group-hover:scale-105"
                 />
@@ -62,7 +73,7 @@ export default function Projects({ onLoadingChange }) {
 
                 {/* Category chip */}
                 <span className="absolute left-4 top-4 rounded-full bg-white/80 px-3 py-1.5 text-xs font-medium text-zinc-800 shadow-sm backdrop-blur-md rtl:left-auto rtl:right-4">
-                  {t.projects.categories[project.category] ?? project.category}
+                  {pick(project, "category", lang)}
                 </span>
 
                 {/* Hover arrow */}
@@ -79,15 +90,15 @@ export default function Projects({ onLoadingChange }) {
               <div className="mt-5 flex items-start justify-between gap-4 px-1">
                 <div>
                   <h3 className="text-xl font-semibold tracking-tight text-zinc-950 transition-colors group-hover:text-[#ff4d00]">
-                    {project.title}
+                    {pick(project, "title", lang)}
                   </h3>
-                  <p className="mt-1 text-sm text-zinc-500">{project.client}</p>
+                  <p className="mt-1 text-sm text-zinc-500">{pick(project, "client", lang)}</p>
                 </div>
 
                 <span className="pt-1 text-sm tabular-nums text-zinc-500">{project.year}</span>
               </div>
 
-              <p className="mt-3 px-1 text-sm leading-6 text-zinc-600">{t.projects.descriptions[project.id] ?? project.description}</p>
+              <p className="mt-3 px-1 text-sm leading-6 text-zinc-600">{pick(project, "description", lang)}</p>
             </Link>
           ))}
         </div>

@@ -4,15 +4,21 @@ import { Link, useParams, Navigate } from "react-router-dom";
 import ProjectCard from "./ProjectCard";
 import useLanguage from "../../context/useLanguage";
 
+const STRAPI_URL = "http://localhost:1337";
+
 const focusRing = "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff4d00]";
 
+const pick = (item, field, lang) => (lang === "ar" && item[`${field}_ar`]) || item[field];
+
 export default function ProjectDetail() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const { id } = useParams();
   const [projects, setProjects] = useState(null);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/projects").then((response) => setProjects(response.data))
+    axios
+      .get(`${STRAPI_URL}/api/my-projects?populate[image]=true`)
+      .then((response) => setProjects(response.data?.data ?? response.data))
       .catch((error) => {
         console.error("Failed to load projects:", error);
         setProjects([]);
@@ -29,7 +35,7 @@ export default function ProjectDetail() {
     return <Navigate to="/projects" replace />;
   }
 
-  const related = projects.filter((p) => p.slug !== project.slug).slice(0, 2);
+  const related = projects.filter((p) => p.id !== project.id).slice(0, 2);
 
   return (
     <article
@@ -47,7 +53,9 @@ export default function ProjectDetail() {
           data-aos-offset="30"
           className={`inline-flex items-center gap-1.5 text-sm font-medium text-zinc-500 transition-colors hover:text-[#ff4d00] ${focusRing} rounded-md`}
         >
-          <span aria-hidden="true" className="rtl:rotate-180">←</span>
+          <span aria-hidden="true" className="rtl:rotate-180">
+            ←
+          </span>
           {t.projects.back}
         </Link>
 
@@ -58,7 +66,7 @@ export default function ProjectDetail() {
           data-aos-duration="700"
           data-aos-offset="30"
         >
-          {t.projects.categories[project.category] ?? project.category}
+          {pick(project, "category", lang)}
         </span>
 
         <h1
@@ -67,11 +75,11 @@ export default function ProjectDetail() {
           data-aos-duration="700"
           data-aos-offset="30"
         >
-          {project.title}
+          {pick(project, "title", lang)}
         </h1>
 
         <p className="mt-2 text-sm text-zinc-500" data-aos="fade-up" data-aos-duration="700" data-aos-offset="30">
-          {project.client} · {project.year}
+          {pick(project, "client", lang)} · {project.year}
         </p>
 
         {/* Main image */}
@@ -81,7 +89,11 @@ export default function ProjectDetail() {
           data-aos-duration="700"
           data-aos-offset="30"
         >
-          <img src={project.image} alt={project.title} className="size-full object-cover" />
+          <img
+            src={project.image?.url ? STRAPI_URL + project.image.url : ""}
+            alt={pick(project, "title", lang)}
+            className="size-full object-cover"
+          />
         </div>
 
         <p
@@ -90,7 +102,7 @@ export default function ProjectDetail() {
           data-aos-duration="700"
           data-aos-offset="30"
         >
-          {t.projects.descriptions[project.id] ?? project.description}
+          {pick(project, "description", lang)}
         </p>
 
         {/* More projects */}
@@ -100,7 +112,7 @@ export default function ProjectDetail() {
 
             <div className="mt-6 grid gap-x-6 gap-y-14 sm:grid-cols-2">
               {related.map((p) => (
-                <ProjectCard key={p.slug} project={p} />
+                <ProjectCard key={p.id} project={p} />
               ))}
             </div>
           </div>

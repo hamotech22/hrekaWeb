@@ -3,14 +3,16 @@ import axios from "axios";
 import ProjectCard from "./ProjectCard";
 import useLanguage from "../../context/useLanguage";
 
+const STRAPI_URL = "http://localhost:1337";
+
 export default function ProjectsList() {
   const { t } = useLanguage();
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/projects")
-      .then((response) => setProjects(response.data))
+      .get(`${STRAPI_URL}/api/my-projects?populate[image]=true`)
+      .then((response) => setProjects(response.data?.data ?? response.data))
       .catch((error) => console.error("Failed to load projects:", error));
   }, []);
 
@@ -36,7 +38,7 @@ export default function ProjectsList() {
         {/* Project cards */}
         <div className="grid gap-x-6 gap-y-14 sm:grid-cols-2">
           {projects.map((project) => (
-            <div key={project.slug} data-aos="fade-up" data-aos-duration="700" data-aos-offset="30">
+            <div key={project.id} data-aos="fade-up" data-aos-duration="700" data-aos-offset="30">
               <ProjectCard project={project} />
             </div>
           ))}
