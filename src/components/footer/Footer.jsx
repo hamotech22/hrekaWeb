@@ -19,17 +19,25 @@ const legalLinks = [
 ];
 
 const focusRing = "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff4d00]";
-const API_URL = "http://localhost:3000/socials";
+
+// ✏️ تعديل: الرابط بقى من Strapi
+const API_URL = "http://localhost:1337/api/socials";
 
 export default function Footer() {
   const { t } = useLanguage();
-  const [socials, setSocial]=useState([]);
+  const [socials, setSocial] = useState([]);
 
-useEffect(()=>{
-   axios.get(API_URL).then((res)=> setSocial(res.data))
-      .catch((error) => console.error("Failed to load socials links:", error))
-},[]);
-
+  useEffect(() => {
+    axios
+      // ✏️ تعديل: أضفنا timeout
+      .get(API_URL, { timeout: 8000 })
+      .then((res) => {
+        // ✏️ تعديل: Strapi بيغلف الرد في data، ونتأكد إنها مصفوفة
+        const list = res.data?.data ?? res.data;
+        setSocial(Array.isArray(list) ? list : []);
+      })
+      .catch((error) => console.error("Failed to load socials links:", error));
+  }, []);
 
   return (
     <footer className="relative isolate w-full overflow-hidden bg-[#111111] px-5 pt-16 sm:px-6 sm:pt-20">
@@ -67,7 +75,8 @@ useEffect(()=>{
           <div className="flex flex-wrap items-center justify-center gap-3">
             {socials.map((social) => (
               <a
-                key={social.name}
+                // ✏️ تعديل: key بقى id بدل name
+                key={social.id}
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -88,7 +97,12 @@ useEffect(()=>{
             <p>{t.footer.copyright}</p>
             <p>
               {t.footer.credit}{" "}
-              <a href={`mailto:hamotech22@gmail.com`} target="_blank" rel="noopener noreferrer" className="text-[#ff4d00] transition hover:text-white">
+              <a
+                href={`mailto:hamotech22@gmail.com`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#ff4d00] transition hover:text-white"
+              >
                 hamotech.
               </a>
             </p>
@@ -102,14 +116,6 @@ useEffect(()=>{
             ))}
           </div>
         </div>
-
-        {/* Oversized wordmark, cropped by the bottom edge */}
-        {/* <p
-          aria-hidden="true"
-          className="-mb-[0.14em] select-none bg-linear-to-b from-white/12 to-transparent bg-clip-text text-center text-[14vw] font-semibold leading-none tracking-tighter text-transparent lg:text-[11rem]"
-        >
-          Osama Hreka
-        </p> */}
       </div>
     </footer>
   );
