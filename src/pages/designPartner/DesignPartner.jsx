@@ -24,7 +24,7 @@ export default function DesignPartner() {
         {/* Text */}
         <div className="mx-auto max-w-2xl">
           <span
-            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-xs font-medium text-zinc-300 backdrop-blur"
+            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-small font-medium text-zinc-300 backdrop-blur"
             data-aos="fade-up"
           >
             <span className="size-1.5 rounded-full bg-[#ff4d00]" />
@@ -32,13 +32,13 @@ export default function DesignPartner() {
           </span>
 
           <h2
-            className="mt-6 text-balance bg-linear-to-b from-white to-zinc-400 bg-clip-text text-4xl font-semibold leading-[1.05] tracking-tight text-transparent sm:text-5xl md:text-6xl"
+            className="mt-6 text-balance bg-linear-to-b from-white to-zinc-400 bg-clip-text text-h2 font-semibold leading-[1.05] tracking-tight text-transparent"
             data-aos="fade-up"
           >
             {t.designPartner.title}
           </h2>
 
-          <p className="mx-auto mt-5 max-w-xl text-pretty text-base leading-7 text-zinc-400 sm:text-lg sm:leading-8" data-aos="fade-up">
+          <p className="mx-auto mt-5 max-w-xl text-pretty text-body leading-7 text-zinc-400" data-aos="fade-up">
             {t.designPartner.description}
           </p>
 
@@ -46,7 +46,7 @@ export default function DesignPartner() {
           <button
             type="button"
             onClick={() => document.getElementById("faq")?.scrollIntoView({ behavior: "smooth" })}
-            className="group/cta mt-9 inline-flex h-14 items-center justify-center gap-3 rounded-full bg-[#ff4d00] px-8 text-sm font-semibold text-white shadow-lg shadow-[#ff4d00]/30 transition hover:bg-[#e64305] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+            className="group/cta mt-9 inline-flex h-14 items-center justify-center gap-3 rounded-full bg-[#ff4d00] px-8 text-small font-semibold text-white shadow-lg shadow-[#ff4d00]/30 transition hover:bg-[#e64305] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
             data-aos="fade-up"
           >
             {t.designPartner.action}
@@ -62,7 +62,7 @@ export default function DesignPartner() {
 
         {/* Browser mockup */}
         <div className="relative mx-auto mt-14 max-w-4xl sm:mt-16" data-aos="fade-up">
-          <div className="absolute -left-4 top-24 z-10 hidden items-center gap-2.5 rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-sm font-medium text-white shadow-xl backdrop-blur-xl sm:flex lg:-left-12">
+          <div className="absolute -left-4 top-24 z-10 hidden items-center gap-2.5 rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-small font-medium text-white shadow-xl backdrop-blur-xl sm:flex lg:-left-12">
             <span className="grid size-7 place-items-center rounded-full bg-[#ff4d00]">
               <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true" className="size-4">
                 <path d="m5 10.5 3.2 3.2L15 6.8" strokeLinecap="round" strokeLinejoin="round" />
@@ -71,7 +71,7 @@ export default function DesignPartner() {
             {t.designPartner.tailored}
           </div>
 
-          <div className="absolute -right-4 top-48 z-10 hidden items-center gap-2.5 rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-sm font-medium text-white shadow-xl backdrop-blur-xl sm:flex lg:-right-12">
+          <div className="absolute -right-4 top-48 z-10 hidden items-center gap-2.5 rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-small font-medium text-white shadow-xl backdrop-blur-xl sm:flex lg:-right-12">
             <span className="grid size-7 place-items-center rounded-full bg-[#ff4d00]">
               <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true" className="size-4">
                 <path d="M4 14 9 9l3 3 5-6M13 6h4v4" strokeLinecap="round" strokeLinejoin="round" />

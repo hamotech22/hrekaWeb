@@ -76,7 +76,7 @@ export default function Hero() {
       {/* Intro */}
       <section className="mx-auto max-w-4xl px-5 pt-14 text-center sm:pt-20" data-aos="fade-up">
         <span
-          className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/70 px-3.5 py-1.5 text-xs font-medium text-zinc-600 shadow-sm backdrop-blur"
+          className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white/70 px-3.5 py-1.5 text-small font-medium text-zinc-600 shadow-sm backdrop-blur"
           data-aos="fade-up"
         >
           <span className="relative flex size-2">
@@ -88,14 +88,14 @@ export default function Hero() {
         </span>
 
         <h1
-          className="mt-6 text-balance bg-linear-to-b from-zinc-950 to-zinc-600 bg-clip-text text-5xl font-semibold leading-[1.05] tracking-tight text-transparent sm:text-6xl lg:text-7xl"
+          className="mt-6 text-balance bg-linear-to-b from-zinc-950 to-zinc-600 bg-clip-text text-display font-semibold leading-[1.05] tracking-tight text-transparent"
           data-aos="fade-up"
         >
           {t.hero.title1}
           <br className="hidden sm:block" /> {t.hero.title2}
         </h1>
 
-        <p className="mx-auto mt-6 max-w-2xl text-pretty text-base leading-7 text-zinc-600 sm:text-lg sm:leading-8" data-aos="fade-up">
+        <p className="mx-auto mt-6 max-w-2xl text-pretty text-body leading-7 text-zinc-600" data-aos="fade-up">
           {t.hero.desc}
         </p>
 

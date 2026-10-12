@@ -10,7 +10,8 @@ export default function LangProvider({ children }) {
     window.localStorage.setItem("hreka-language", lang);
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
-    document.title = lang === "ar" ? "هريكا ويب | تصوير فوتوغرافي" : "Hreka Web | Photography";
+    const titleSuffix = lang === "ar" ? "تصوير فوتوغرافي" : "Photography";
+    document.title = `${texts[lang].nav.logo.trim()} | ${titleSuffix}`;
   }, [lang]);
 
   return <LangContext.Provider value={value}>{children}</LangContext.Provider>;

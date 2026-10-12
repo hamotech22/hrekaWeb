@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import AOS from "aos";
+// ✏️ تعديل: استيراد Toaster
+import { Toaster } from "react-hot-toast";
 
 import Footer from "./components/footer/Footer";
 import Loading from "./components/loading/Loading";
@@ -44,6 +46,9 @@ export default function App() {
 
   return (
     <>
+      {/* ✏️ تعديل: مكان عرض التوستات (مرة واحدة بس في المشروع) */}
+      <Toaster position="top-center" toastOptions={{ style: { fontFamily: "inherit" } }} />
+
       <ScrollToTop />
       <Navbar />
       <Routes>
@@ -61,7 +66,7 @@ export default function App() {
         <Route path="/cta" element={<CTA />} />
       </Routes>
 
-      <BackToTop/>
+      <BackToTop />
       <Footer />
     </>
   );

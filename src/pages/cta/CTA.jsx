@@ -27,14 +27,14 @@ export default function CTA() {
           <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
             <h2
               data-aos="fade-up"
-              className="text-balance text-3xl font-semibold leading-tight tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl"
+              className="text-balance text-h2 font-semibold leading-tight tracking-tight text-white"
             >
               {t.cta.title}
             </h2>
 
             <p
               data-aos="fade-up"
-              className="mt-4 max-w-2xl text-pretty text-sm leading-6 text-white/90 sm:mt-6 sm:text-base sm:leading-7 md:text-lg md:leading-8"
+              className="mt-4 max-w-2xl text-pretty text-body leading-6 text-white/90 sm:mt-6 sm:leading-7"
             >
               {t.cta.description}
             </p>
@@ -42,7 +42,7 @@ export default function CTA() {
             <div data-aos="fade-up" className="mt-7 flex w-full max-w-sm flex-col gap-3 sm:mt-9 sm:max-w-md sm:flex-row">
               <a
                 href="/contact"
-                className="group flex min-h-12 w-full flex-1 items-center justify-center gap-3 rounded-full bg-white px-5 py-3 text-sm font-semibold text-zinc-950 shadow-lg shadow-black/10 transition-colors hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:min-h-14 sm:px-6"
+                className="group flex min-h-12 w-full flex-1 items-center justify-center gap-3 rounded-full bg-white px-5 py-3 text-small font-semibold text-zinc-950 shadow-lg shadow-black/10 transition-colors hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:min-h-14 sm:px-6"
               >
                 <span>{t.cta.action}</span>
 

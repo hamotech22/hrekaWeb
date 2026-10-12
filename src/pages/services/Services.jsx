@@ -32,11 +32,11 @@ export default function Services() {
       <div className="mx-auto grid max-w-6xl gap-12 md:grid-cols-[0.85fr_1.15fr] md:gap-16">
         {/* Intro (stays in view while the cards scroll on desktop) */}
         <div className="md:sticky md:top-28 md:self-start" data-aos="fade-up">
-          <h2 className="max-w-md text-balance bg-linear-to-b from-zinc-950 to-zinc-600 bg-clip-text text-4xl font-semibold leading-[1.1] tracking-tight text-transparent sm:text-5xl">
+          <h2 className="max-w-md text-balance bg-linear-to-b from-zinc-950 to-zinc-600 bg-clip-text text-h2 font-semibold leading-[1.1] tracking-tight text-transparent">
             {t.services.title}
           </h2>
 
-          <div className="mt-6 max-w-md space-y-4 text-pretty text-base leading-7 text-zinc-600">
+          <div className="mt-6 max-w-md space-y-4 text-pretty text-body leading-7 text-zinc-600">
             <p>{t.services.intro1}</p>
             <p>{t.services.intro2}</p>
           </div>
@@ -67,9 +67,9 @@ export default function Services() {
                 </svg>
               </span>
 
-              <h3 className="mt-6 text-xl font-semibold tracking-tight text-zinc-950">{t.services.items[index][0]}</h3>
+              <h3 className="mt-6 text-h3 font-semibold tracking-tight text-zinc-950">{t.services.items[index][0]}</h3>
 
-              <p className="mt-3 text-sm leading-6 text-zinc-600">{t.services.items[index][1]}</p>
+              <p className="mt-3 text-body leading-6 text-zinc-600">{t.services.items[index][1]}</p>
             </div>
           ))}
         </div>

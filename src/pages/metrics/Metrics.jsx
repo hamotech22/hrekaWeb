@@ -18,18 +18,18 @@ export default function Metrics() {
         {/* Header */}
         <div className="mb-12 flex flex-col gap-6 sm:mb-16 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
-            <h2 className="text-balance bg-linear-to-b from-zinc-950 to-zinc-600 bg-clip-text text-4xl font-semibold leading-[1.1] tracking-tight text-transparent sm:text-5xl">
+            <h2 className="text-balance bg-linear-to-b from-zinc-950 to-zinc-600 bg-clip-text text-h2 font-semibold leading-[1.1] tracking-tight text-transparent">
               {t.metrics.title}
             </h2>
 
-            <p className="mt-5 max-w-xl text-pretty text-base leading-7 text-zinc-600 sm:text-lg sm:leading-8">
+            <p className="mt-5 max-w-xl text-pretty text-body leading-7 text-zinc-600">
               {t.metrics.description}
             </p>
           </div>
 
           <Link
             to="/about"
-            className={`group inline-flex w-fit items-center gap-2.5 rounded-full border border-[#ff4d00]/40 px-5 py-2.5 text-sm font-medium text-[#ff4d00] transition hover:border-[#ff4d00] hover:bg-[#ff4d00] hover:text-white ${focusRing}`}
+            className={`group inline-flex w-fit items-center gap-2.5 rounded-full border border-[#ff4d00]/40 px-5 py-2.5 text-small font-medium text-[#ff4d00] transition hover:border-[#ff4d00] hover:bg-[#ff4d00] hover:text-white ${focusRing}`}
           >
             {t.metrics.action}
             <svg viewBox="0 0 256 256" aria-hidden="true" className="size-4 fill-current transition duration-200 group-hover:translate-x-1 rtl:rotate-180 rtl:group-hover:-translate-x-1">
@@ -45,8 +45,8 @@ export default function Metrics() {
               key={t.metrics.labels[index]}
               className="flex flex-col-reverse justify-between gap-10 bg-zinc-950 p-6 transition-colors duration-300 hover:bg-zinc-900 md:gap-16 md:p-8"
             >
-              <dt className="text-sm leading-5 text-zinc-400">{t.metrics.labels[index]}</dt>
-              <dd className="text-4xl font-semibold tabular-nums tracking-tight text-white sm:text-5xl">{metric.number}</dd>
+              <dt className="text-small leading-5 text-zinc-400">{t.metrics.labels[index]}</dt>
+              <dd className="text-display font-semibold tabular-nums tracking-tight text-white">{metric.number}</dd>
             </div>
           ))}
         </dl>

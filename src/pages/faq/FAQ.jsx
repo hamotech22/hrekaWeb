@@ -26,11 +26,11 @@ export default function FAQ() {
         <div className="grid items-start gap-8 sm:gap-10 lg:grid-cols-[1.4fr_0.9fr] lg:gap-14">
           {/* FAQ */}
           <div className="min-w-0">
-            <h2 className="max-w-3xl bg-linear-to-b from-zinc-950 to-zinc-600 bg-clip-text text-3xl font-semibold leading-tight tracking-tight text-transparent sm:text-4xl md:text-5xl">
+            <h2 className="max-w-3xl bg-linear-to-b from-zinc-950 to-zinc-600 bg-clip-text text-h2 font-semibold leading-tight tracking-tight text-transparent">
               {t.faq.title}
             </h2>
 
-            <p className="mt-4 text-sm leading-6 text-zinc-600 sm:mt-5 sm:text-base sm:leading-7 md:text-lg">{t.faq.description}</p>
+            <p className="mt-4 text-body leading-6 text-zinc-600 sm:mt-5 sm:leading-7">{t.faq.description}</p>
 
             <div className="mt-7 space-y-3 sm:mt-10 sm:space-y-4">
               {t.faq.questions.map(([question, answer]) => (
@@ -39,7 +39,7 @@ export default function FAQ() {
                   className="group rounded-xl bg-white ring-1 ring-zinc-900/5 transition duration-300 open:shadow-lg open:shadow-zinc-900/5 sm:rounded-2xl"
                 >
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-xl px-4 py-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff4d00] sm:gap-5 sm:rounded-2xl sm:px-6 sm:py-5 [&::-webkit-details-marker]:hidden">
-                    <span className="min-w-0 text-sm font-medium leading-6 text-zinc-950 sm:text-base md:text-lg">{question}</span>
+                    <span className="min-w-0 text-body font-medium leading-6 text-zinc-950">{question}</span>
 
                     <span
                       aria-hidden="true"
@@ -50,7 +50,7 @@ export default function FAQ() {
                     </span>
                   </summary>
 
-                  <div className="max-w-2xl px-4 pb-5 text-sm leading-6 text-zinc-600 sm:px-6 sm:pb-6 sm:text-base sm:leading-7">
+                  <div className="max-w-2xl px-4 pb-5 text-body leading-6 text-zinc-600 sm:px-6 sm:pb-6 sm:leading-7">
                     {answer}
                   </div>
                 </details>
@@ -77,11 +77,11 @@ export default function FAQ() {
             />
 
             <div className="mt-5 sm:mt-6">
-              <h3 className="text-balance text-2xl font-semibold leading-tight tracking-tight text-white sm:text-3xl md:text-4xl">
+              <h3 className="text-balance text-h3 font-semibold leading-tight tracking-tight text-white">
                 {t.faq.consultationTitle}
               </h3>
 
-              <p className="mt-3 max-w-md text-sm leading-6 text-white/90 sm:mt-4 sm:text-base sm:leading-7">{t.faq.emailPrompt}</p>
+              <p className="mt-3 max-w-md text-body leading-6 text-white/90 sm:mt-4 sm:leading-7">{t.faq.emailPrompt}</p>
             </div>
 
             <div className="mt-8 flex flex-col gap-3 sm:mt-auto sm:pt-10">
@@ -90,7 +90,7 @@ export default function FAQ() {
                 href={whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex min-h-12 w-full items-center justify-center gap-3 rounded-full bg-white px-5 py-3 text-center text-sm font-semibold text-zinc-950 transition hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:min-h-14"
+                className="group flex min-h-12 w-full items-center justify-center gap-3 rounded-full bg-white px-5 py-3 text-center text-small font-semibold text-zinc-950 transition hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:min-h-14"
               >
                 <span>{t.faq.consultation}</span>
 
@@ -106,7 +106,7 @@ export default function FAQ() {
               {/* Email */}
               <a
                 href={emailHref}
-                className="flex min-h-12 w-full items-center justify-center gap-3 rounded-full bg-zinc-950 px-5 py-3 text-center text-sm font-semibold text-white transition hover:bg-zinc-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:min-h-14"
+                className="flex min-h-12 w-full items-center justify-center gap-3 rounded-full bg-zinc-950 px-5 py-3 text-center text-small font-semibold text-white transition hover:bg-zinc-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:min-h-14"
               >
                 <span>{t.faq.email}</span>
 

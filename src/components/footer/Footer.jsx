@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import useLanguage from "../../context/useLanguage";
+import whiteLogo from "../../assets/images/Design/Logo_Personal Logo - White.svg";
 
 const navLinks = [
   { key: "home", href: "/" },
@@ -68,16 +69,11 @@ export default function Footer() {
           {/* Logo */}
           <Link
             to="/"
+            aria-label={t.nav.logo}
             className={`flex items-center gap-3 rounded-lg ${focusRing}`}
           >
-            <span className="relative block size-9">
-              <span className="absolute left-0 top-0 h-4 w-full rounded-b-full bg-white" />
-              <span className="absolute bottom-0 left-0 h-4 w-full rounded-t-full bg-[#ff4d00]" />
-            </span>
-
-            <span className="text-2xl font-semibold tracking-tight text-white">
-              {t.nav.logo}
-            </span>
+            {/* ✏️ تعديل: ارتفاع متحكم فيه والعرض تلقائي بدل size-36 */}
+            <img src={whiteLogo} alt="" className="h-16 w-auto object-contain sm:h-20" />
           </Link>
 
           {/* Main menu */}
@@ -89,7 +85,7 @@ export default function Footer() {
               <Link
                 key={link.key}
                 to={link.href}
-                className={`rounded-full px-4 py-2 text-base text-zinc-300 transition hover:bg-white/5 hover:text-white ${focusRing}`}
+                className={`rounded-full px-4 py-2 text-small text-zinc-300 transition hover:bg-white/5 hover:text-white ${focusRing}`}
               >
                 {t.nav[link.key]}
               </Link>
@@ -98,7 +94,7 @@ export default function Footer() {
 
           {/* Address */}
           {address && (
-            <address className="flex items-center justify-center gap-2 text-base not-italic text-zinc-300">
+            <address className="flex items-center justify-center gap-2 text-body not-italic text-zinc-300">
               <svg
                 viewBox="0 0 24 24"
                 aria-hidden="true"
@@ -141,11 +137,11 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-14 flex flex-col-reverse items-center gap-6 border-t border-white/10 py-8 text-sm text-zinc-400 sm:mt-16 md:flex-row md:justify-between">
+        <div className="mt-14 flex flex-col-reverse items-center gap-6 border-t border-white/10 py-8 text-small text-zinc-400 sm:mt-16 md:flex-row md:justify-between">
           <div className="space-y-1 text-center md:text-start">
-            <p>{t.footer.copyright}</p>
+            <p className="text-body">{t.footer.copyright}</p>
 
-            <p>
+            <p className="text-body">
               {t.footer.credit}{" "}
               <a
                 href="mailto:hamotech22@gmail.com"
@@ -172,4 +168,3 @@ export default function Footer() {
     </footer>
   );
 }
-

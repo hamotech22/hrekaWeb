@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 // ✏️ تعديل: استيراد axios
 import axios from "axios";
 import { LangContext } from "../../context/LangContext";
+import blackLogo from "../../assets/images/Design/Logo_Personal Logo - Black.svg";
 
 // ✏️ تعديل: عنوان Strapi
 const STRAPI_URL = "http://localhost:1337";
@@ -18,17 +19,21 @@ const navItems = [
 ];
 
 const desktopLink =
-  "rounded-full px-3.5 py-2 text-sm font-medium text-zinc-600 transition hover:bg-zinc-900/5 hover:text-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF4D0A]";
+  "rounded-full px-3.5 py-2 text-small font-medium text-zinc-600 transition hover:bg-zinc-900/5 hover:text-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF4D0A]";
 
-const mobileLink = "block rounded-xl px-4 py-3 text-base font-medium text-zinc-700 transition hover:bg-zinc-100 hover:text-zinc-950";
+const mobileLink = "block rounded-xl px-4 py-3 text-body font-medium text-zinc-700 transition hover:bg-zinc-100 hover:text-zinc-950";
 
 const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
+// ✏️ تعديل: لوجو أكبر (موبايل 160×56 / ديسكتوب 208×64) من غير ما يأثر على ارتفاع النافبار
 function Logo({ name }) {
   return (
-    <Link to="/" onClick={scrollToTop} className="flex items-center gap-2 text-lg font-semibold tracking-tight text-zinc-950">
-      <span className="relative block h-4.75 w-4.25 before:absolute before:top-0 before:h-2 before:w-4.25 before:rounded-b-full before:bg-zinc-950 after:absolute after:bottom-0 after:h-2 after:w-4.25 after:rounded-t-full after:bg-[#FF4D0A]" />
-      {name}
+    <Link to="/" onClick={scrollToTop} aria-label={name} className="flex items-center">
+      <img
+        src={blackLogo}
+        alt={name}
+        className="h-14 w-40 shrink-0 object-contain md:h-16 md:w-52"
+      />
     </Link>
   );
 }
@@ -79,7 +84,7 @@ export default function Navbar() {
               dir="ltr"
               onClick={() => setLang(lang === "en" ? "ar" : "en")}
               aria-label={t.nav.changeLanguage}
-              className="relative grid h-9 w-22 grid-cols-2 items-center rounded-full bg-zinc-900/5 p-1 text-xs font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF4D0A]"
+              className="relative grid h-9 w-22 grid-cols-2 items-center rounded-full bg-zinc-900/5 p-1 text-small font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF4D0A]"
             >
               <span
                 aria-hidden="true"
@@ -106,7 +111,7 @@ export default function Navbar() {
                 target="_blank"
                 rel="noopener noreferrer"
                 download
-                className="group/cta inline-flex items-center gap-1.5 rounded-full bg-[#FF4D0A] px-4 py-2.5 text-sm font-medium text-white shadow-md shadow-orange-500/25 transition hover:bg-[#e64305] active:scale-[0.98]"
+                className="group/cta inline-flex items-center gap-1.5 rounded-full bg-[#FF4D0A] px-4 py-2.5 text-small font-medium text-white shadow-md shadow-orange-500/25 transition hover:bg-[#e64305] active:scale-[0.98]"
               >
                 {t.nav.cv}
                 <svg

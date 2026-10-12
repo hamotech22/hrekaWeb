@@ -38,13 +38,13 @@ export default function About() {
           {/* العنوان بتدرج لوني */}
           <h1
             {...modern}
-            className="bg-linear-to-b from-white to-zinc-400 bg-clip-text text-5xl font-semibold leading-[1.05] tracking-tight text-transparent sm:text-6xl"
+            className="bg-linear-to-b from-white to-zinc-400 bg-clip-text text-display font-semibold leading-[1.05] tracking-tight text-transparent"
           >
             {t.about.title}
           </h1>
 
           {/* فقرة المقدمة */}
-          <p {...modern} className="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-8 text-zinc-400">
+          <p {...modern} className="mx-auto mt-6 max-w-2xl text-pretty text-body leading-8 text-zinc-400">
             {t.about.intro}
           </p>
         </div>
@@ -65,11 +65,11 @@ export default function About() {
 
           {/* نص القصة */}
           <div {...modern} className="flex flex-col justify-center space-y-5">
-            <h2 className="text-3xl font-semibold tracking-tight text-white">{t.about.storyTitle}</h2>
+            <h2 className="text-h2 font-semibold tracking-tight text-white">{t.about.storyTitle}</h2>
 
-            <p className="text-pretty text-base leading-7 text-zinc-400">{t.about.story1}</p>
+            <p className="text-pretty text-body leading-7 text-zinc-400">{t.about.story1}</p>
 
-            <p className="text-pretty text-base leading-7 text-zinc-400">{t.about.story2}</p>
+            <p className="text-pretty text-body leading-7 text-zinc-400">{t.about.story2}</p>
           </div>
         </div>
       </section>
@@ -77,7 +77,7 @@ export default function About() {
       {/* ===== Values: القيم ===== */}
       <section className="px-5 py-16 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-6xl">
-          <h2 {...modern} className="max-w-md text-3xl font-semibold tracking-tight text-white">
+          <h2 {...modern} className="max-w-md text-h2 font-semibold tracking-tight text-white">
             {t.about.valuesTitle}
           </h2>
 
@@ -85,9 +85,9 @@ export default function About() {
           <div className="mt-10 divide-y divide-white/10 border-y border-white/10">
             {t.about.values.map(([label, text]) => (
               <div key={label} {...modern} className="grid gap-2 py-7 sm:grid-cols-[240px_1fr] sm:gap-8">
-                <h3 className="text-lg font-medium text-white">{label}</h3>
+                <h3 className="text-h3 font-medium text-white">{label}</h3>
 
-                <p className="text-pretty text-base leading-7 text-zinc-400">{text}</p>
+                <p className="text-pretty text-body leading-7 text-zinc-400">{text}</p>
               </div>
             ))}
           </div>
@@ -99,13 +99,13 @@ export default function About() {
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 sm:grid-cols-3">
           {stats.map((s, i) => (
             <div key={t.about.stats[i]} {...modern}>
-              <div className="text-4xl font-semibold text-white sm:text-5xl">
+              <div className="text-display font-semibold text-white">
                 {/* العد من 0 للرقم النهائي لما العنصر يظهر في الشاشة (مرة واحدة) */}
                 <CountUp end={s.value} suffix={s.suffix} duration={2.5} enableScrollSpy scrollSpyOnce />
               </div>
 
               {/* اسم الإحصائية */}
-              <div className="mt-2 text-sm text-zinc-500">{t.about.stats[i]}</div>
+              <div className="mt-2 text-small text-zinc-500">{t.about.stats[i]}</div>
             </div>
           ))}
         </div>

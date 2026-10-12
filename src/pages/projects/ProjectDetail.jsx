@@ -26,7 +26,7 @@ export default function ProjectDetail() {
   }, []);
 
   if (projects === null) {
-    return <p className="px-5 py-20 text-center text-zinc-600">{t.projects.loading}</p>;
+    return <p className="px-5 py-20 text-body text-center text-zinc-600">{t.projects.loading}</p>;
   }
 
   const project = projects.find((p) => String(p.id) === String(id) || p.slug === id);
@@ -51,7 +51,7 @@ export default function ProjectDetail() {
           data-aos="fade-up"
           data-aos-duration="700"
           data-aos-offset="30"
-          className={`inline-flex items-center gap-1.5 text-sm font-medium text-zinc-500 transition-colors hover:text-[#ff4d00] ${focusRing} rounded-md`}
+          className={`inline-flex items-center gap-1.5 text-small font-medium text-zinc-500 transition-colors hover:text-[#ff4d00] ${focusRing} rounded-md`}
         >
           <span aria-hidden="true" className="rtl:rotate-180">
             ←
@@ -61,7 +61,7 @@ export default function ProjectDetail() {
 
         {/* Header */}
         <span
-          className="mt-8 inline-flex rounded-full bg-[#ff4d00]/10 px-3 py-1.5 text-xs font-medium text-[#ff4d00]"
+          className="mt-8 inline-flex rounded-full bg-[#ff4d00]/10 px-3 py-1.5 text-small font-medium text-[#ff4d00]"
           data-aos="fade-up"
           data-aos-duration="700"
           data-aos-offset="30"
@@ -70,7 +70,7 @@ export default function ProjectDetail() {
         </span>
 
         <h1
-          className="mt-4 text-balance bg-linear-to-b from-zinc-950 to-zinc-600 bg-clip-text text-3xl font-semibold leading-[1.15] tracking-tight text-transparent sm:text-5xl"
+          className="mt-4 text-balance bg-linear-to-b from-zinc-950 to-zinc-600 bg-clip-text text-display font-semibold leading-[1.15] tracking-tight text-transparent"
           data-aos="fade-up"
           data-aos-duration="700"
           data-aos-offset="30"
@@ -78,7 +78,7 @@ export default function ProjectDetail() {
           {pick(project, "title", lang)}
         </h1>
 
-        <p className="mt-2 text-sm text-zinc-500" data-aos="fade-up" data-aos-duration="700" data-aos-offset="30">
+        <p className="mt-2 text-body text-zinc-500" data-aos="fade-up" data-aos-duration="700" data-aos-offset="30">
           {pick(project, "client", lang)} · {project.year}
         </p>
 
@@ -97,7 +97,7 @@ export default function ProjectDetail() {
         </div>
 
         <p
-          className="mt-8 max-w-2xl text-pretty text-base leading-7 text-zinc-600 sm:text-lg sm:leading-8"
+          className="mt-8 max-w-2xl text-pretty text-body leading-7 text-zinc-600"
           data-aos="fade-up"
           data-aos-duration="700"
           data-aos-offset="30"
@@ -108,7 +108,7 @@ export default function ProjectDetail() {
         {/* More projects */}
         {related.length > 0 && (
           <div className="mt-20 border-t border-zinc-100 pt-12" data-aos="fade-up" data-aos-duration="700" data-aos-offset="30">
-            <h2 className="text-lg font-semibold tracking-tight text-zinc-950">{t.projects.more}</h2>
+            <h2 className="text-h2 font-semibold tracking-tight text-zinc-950">{t.projects.more}</h2>
 
             <div className="mt-6 grid gap-x-6 gap-y-14 sm:grid-cols-2">
               {related.map((p) => (

@@ -40,7 +40,7 @@ export default function BlogPost() {
   }, []);
 
   if (posts === null) {
-    return <p className="px-5 py-20 text-center text-zinc-600">{t.blog.loading}</p>;
+    return <p className="px-5 py-20 text-body text-center text-zinc-600">{t.blog.loading}</p>;
   }
 
   const post = posts.find((p) => String(p.id) === String(id));
@@ -64,7 +64,7 @@ export default function BlogPost() {
           data-aos="fade-up"
           data-aos-duration="700"
           data-aos-offset="30"
-          className={`inline-flex items-center gap-1.5 text-sm font-medium text-zinc-500 transition-colors hover:text-[#ff4d00] ${focusRing} rounded-md`}
+          className={`inline-flex items-center gap-1.5 text-small font-medium text-zinc-500 transition-colors hover:text-[#ff4d00] ${focusRing} rounded-md`}
         >
           <span aria-hidden="true" className="rtl:rotate-180">
             ←
@@ -73,15 +73,15 @@ export default function BlogPost() {
         </Link>
 
         <div className="mt-8" data-aos="fade-up" data-aos-duration="700" data-aos-offset="30">
-          <time dateTime={post.date} className="text-sm text-zinc-500">
+          <time dateTime={post.date} className="text-small text-zinc-500">
             {formatDate(post.date, lang)}
           </time>
 
-          <h1 className="mt-3 text-balance bg-linear-to-b from-zinc-950 to-zinc-600 bg-clip-text text-3xl font-semibold leading-[1.15] tracking-tight text-transparent sm:text-5xl">
+          <h1 className="mt-3 text-balance bg-linear-to-b from-zinc-950 to-zinc-600 bg-clip-text text-display font-semibold leading-[1.15] tracking-tight text-transparent">
             {pick(post, "title", lang)}
           </h1>
 
-          <p className="mt-5 max-w-2xl text-pretty text-base leading-7 text-zinc-600 sm:text-lg sm:leading-8">
+          <p className="mt-5 max-w-2xl text-pretty text-body leading-7 text-zinc-600">
             {pick(post, "excerpt", lang)}
           </p>
 
@@ -93,8 +93,8 @@ export default function BlogPost() {
                 className="size-10 rounded-full object-cover ring-2 ring-white"
               />
               <div>
-                <p className="text-sm font-medium text-zinc-950">{pick(author, "name", lang)}</p>
-                <p className="text-sm text-zinc-500">{pick(author, "role", lang) || pick(author, "description", lang)}</p>
+                <p className="text-body font-medium text-zinc-950">{pick(author, "name", lang)}</p>
+                <p className="text-body text-zinc-500">{pick(author, "role", lang) || pick(author, "description", lang)}</p>
               </div>
             </div>
           )}
@@ -110,7 +110,7 @@ export default function BlogPost() {
         </div>
 
         <div
-          className="prose prose-zinc mt-10 max-w-none text-base leading-7 text-zinc-700 sm:text-lg sm:leading-8 [&_p]:mb-5 [&_h2]:mt-10 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:tracking-tight [&_h2]:text-zinc-950"
+          className="prose prose-zinc mt-10 max-w-none text-body leading-7 text-zinc-700 [&_p]:mb-5 [&_h2]:mt-10 [&_h2]:text-h2 [&_h2]:font-semibold [&_h2]:tracking-tight [&_h2]:text-zinc-950"
           data-aos="fade-up"
           data-aos-duration="700"
           data-aos-offset="30"

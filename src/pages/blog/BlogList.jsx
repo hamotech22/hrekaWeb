@@ -44,11 +44,11 @@ export default function BlogList() {
       <div className="mx-auto max-w-6xl">
         {/* Header */}
         <div className="mb-12 max-w-2xl sm:mb-16" data-aos="fade-up" data-aos-duration="700" data-aos-offset="30">
-          <h1 className="text-balance bg-linear-to-b from-zinc-950 to-zinc-600 bg-clip-text text-4xl font-semibold leading-[1.1] tracking-tight text-transparent sm:text-5xl">
+          <h1 className="text-balance bg-linear-to-b from-zinc-950 to-zinc-600 bg-clip-text text-display font-semibold leading-[1.1] tracking-tight text-transparent">
             {t.blog.listTitle}
           </h1>
 
-          <p className="mt-5 max-w-xl text-pretty text-base leading-7 text-zinc-600 sm:text-lg sm:leading-8">{t.blog.listDescription}</p>
+          <p className="mt-5 max-w-xl text-pretty text-body leading-7 text-zinc-600">{t.blog.listDescription}</p>
         </div>
 
         {/* Posts grid */}
@@ -73,13 +73,13 @@ export default function BlogList() {
                 />
               </div>
 
-              <h2 className="mt-5 text-lg font-semibold leading-snug tracking-tight text-zinc-950 transition-colors group-hover:text-[#ff4d00]">
+              <h2 className="mt-5 text-h3 font-semibold leading-snug tracking-tight text-zinc-950 transition-colors group-hover:text-[#ff4d00]">
                 {pick(post, "title", lang)}
               </h2>
 
-              <p className="mt-2 line-clamp-3 text-sm leading-6 text-zinc-600">{pick(post, "excerpt", lang)}</p>
+              <p className="mt-2 line-clamp-3 text-body leading-6 text-zinc-600">{pick(post, "excerpt", lang)}</p>
 
-              <time dateTime={post.date} className="mt-auto pt-5 text-sm text-zinc-500">
+              <time dateTime={post.date} className="mt-auto pt-5 text-small text-zinc-500">
                 {formatDate(post.date, lang)}
               </time>
 
@@ -92,9 +92,9 @@ export default function BlogList() {
                     className="size-7 rounded-full object-cover"
                   />
                   <div>
-                    <p className="text-sm font-medium text-zinc-800">{pick(author, "name", lang)}</p>
+                    <p className="text-body font-medium text-zinc-800">{pick(author, "name", lang)}</p>
                     {(author.role || author.description || author.description_ar) && (
-                      <p className="text-xs text-zinc-500">{pick(author, "role", lang) || pick(author, "description", lang)}</p>
+                      <p className="text-body text-zinc-500">{pick(author, "role", lang) || pick(author, "description", lang)}</p>
                     )}
                   </div>
                 </div>

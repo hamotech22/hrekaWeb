@@ -21,7 +21,7 @@ export default function ProjectCard({ project }) {
 
         <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-zinc-950/35 via-transparent to-transparent opacity-0 transition duration-500 group-hover:opacity-100" />
 
-        <span className="absolute left-4 top-4 rounded-full bg-white/80 px-3 py-1.5 text-xs font-medium text-zinc-800 shadow-sm backdrop-blur-md rtl:left-auto rtl:right-4">
+        <span className="absolute left-4 top-4 rounded-full bg-white/80 px-3 py-1.5 text-small font-medium text-zinc-800 shadow-sm backdrop-blur-md rtl:left-auto rtl:right-4">
           {pick(project, "category", lang)}
         </span>
 
@@ -37,16 +37,16 @@ export default function ProjectCard({ project }) {
 
       <div className="mt-5 flex items-start justify-between gap-4 px-1">
         <div>
-          <h3 className="text-xl font-semibold tracking-tight text-zinc-950 transition-colors group-hover:text-[#ff4d00]">
+          <h3 className="text-h3 font-semibold tracking-tight text-zinc-950 transition-colors group-hover:text-[#ff4d00]">
             {pick(project, "title", lang)}
           </h3>
-          <p className="mt-1 text-sm text-zinc-500">{pick(project, "client", lang)}</p>
+          <p className="mt-1 text-body text-zinc-500">{pick(project, "client", lang)}</p>
         </div>
 
-        <span className="pt-1 text-sm tabular-nums text-zinc-500">{project.year}</span>
+        <span className="pt-1 text-small tabular-nums text-zinc-500">{project.year}</span>
       </div>
 
-      <p className="mt-3 px-1 text-sm leading-6 text-zinc-600">{pick(project, "description", lang)}</p>
+      <p className="mt-3 px-1 text-body leading-6 text-zinc-600">{pick(project, "description", lang)}</p>
     </Link>
   );
 }

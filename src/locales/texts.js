@@ -133,6 +133,10 @@ const texts = {
       loadError: "Failed to load contact information:",
       sendError: "Failed to send message:",
     },
+    strapiStatus: {
+      message: "Unable to connect to the server. Some site data may be unavailable.",
+      retry: "Retry",
+    },
     footer: {
       privacy: "Privacy policy",
       terms: "Terms & Conditions",
@@ -316,6 +320,10 @@ const texts = {
       emailLabel: "البريد الإلكتروني",
       loadError: "تعذّر تحميل بيانات التواصل:",
       sendError: "تعذّر إرسال الرسالة:",
+    },
+    strapiStatus: {
+      message: "تعذر الاتصال بالخادم. بعض بيانات الموقع قد لا تكون متاحة حاليًا.",
+      retry: "إعادة المحاولة",
     },
     footer: {
       privacy: "سياسة الخصوصية",

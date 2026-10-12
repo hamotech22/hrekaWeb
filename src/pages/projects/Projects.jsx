@@ -33,18 +33,18 @@ export default function Projects({ onLoadingChange }) {
           data-aos-offset="30"
         >
           <div className="max-w-2xl" data-aos="fade-up" data-aos-duration="700" data-aos-offset="30">
-            <h2 className="text-balance bg-linear-to-b from-zinc-950 to-zinc-600 bg-clip-text text-4xl font-semibold leading-[1.1] tracking-tight text-transparent sm:text-5xl">
+            <h2 className="text-balance bg-linear-to-b from-zinc-950 to-zinc-600 bg-clip-text text-h2 font-semibold leading-[1.1] tracking-tight text-transparent">
               {t.projects.homeTitle}
             </h2>
 
-            <p className="mt-5 max-w-xl text-pretty text-base leading-7 text-zinc-600 sm:text-lg sm:leading-8">
+            <p className="mt-5 max-w-xl text-pretty text-body leading-7 text-zinc-600">
               {t.projects.homeDescription}
             </p>
           </div>
 
           <Link
             to="/projects"
-            className={`group inline-flex w-fit items-center gap-2.5 rounded-full border border-[#ff4d00]/40 px-5 py-2.5 text-sm font-medium text-[#ff4d00] transition hover:border-[#ff4d00] hover:bg-[#ff4d00] hover:text-white ${focusRing}`}
+            className={`group inline-flex w-fit items-center gap-2.5 rounded-full border border-[#ff4d00]/40 px-5 py-2.5 text-small font-medium text-[#ff4d00] transition hover:border-[#ff4d00] hover:bg-[#ff4d00] hover:text-white ${focusRing}`}
           >
             {t.projects.viewAll}
             <svg
@@ -72,7 +72,7 @@ export default function Projects({ onLoadingChange }) {
                 <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-zinc-950/35 via-transparent to-transparent opacity-0 transition duration-500 group-hover:opacity-100" />
 
                 {/* Category chip */}
-                <span className="absolute left-4 top-4 rounded-full bg-white/80 px-3 py-1.5 text-xs font-medium text-zinc-800 shadow-sm backdrop-blur-md rtl:left-auto rtl:right-4">
+                <span className="absolute left-4 top-4 rounded-full bg-white/80 px-3 py-1.5 text-small font-medium text-zinc-800 shadow-sm backdrop-blur-md rtl:left-auto rtl:right-4">
                   {pick(project, "category", lang)}
                 </span>
 
@@ -89,16 +89,16 @@ export default function Projects({ onLoadingChange }) {
 
               <div className="mt-5 flex items-start justify-between gap-4 px-1">
                 <div>
-                  <h3 className="text-xl font-semibold tracking-tight text-zinc-950 transition-colors group-hover:text-[#ff4d00]">
+                  <h3 className="text-h3 font-semibold tracking-tight text-zinc-950 transition-colors group-hover:text-[#ff4d00]">
                     {pick(project, "title", lang)}
                   </h3>
-                  <p className="mt-1 text-sm text-zinc-500">{pick(project, "client", lang)}</p>
+                  <p className="mt-1 text-body text-zinc-500">{pick(project, "client", lang)}</p>
                 </div>
 
-                <span className="pt-1 text-sm tabular-nums text-zinc-500">{project.year}</span>
+                <span className="pt-1 text-small tabular-nums text-zinc-500">{project.year}</span>
               </div>
 
-              <p className="mt-3 px-1 text-sm leading-6 text-zinc-600">{pick(project, "description", lang)}</p>
+              <p className="mt-3 px-1 text-body leading-6 text-zinc-600">{pick(project, "description", lang)}</p>
             </Link>
           ))}
         </div>

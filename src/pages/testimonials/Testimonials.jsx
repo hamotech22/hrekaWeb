@@ -57,17 +57,17 @@ export default function Testimonials() {
       <div className="mx-auto max-w-6xl">
         {/* Header */}
         <div className="mb-12 max-w-2xl sm:mb-16" data-aos="fade-up">
-          <h2 className="text-balance bg-linear-to-b from-zinc-950 to-zinc-600 bg-clip-text text-4xl font-semibold leading-[1.1] tracking-tight text-transparent sm:text-5xl">
+          <h2 className="text-balance bg-linear-to-b from-zinc-950 to-zinc-600 bg-clip-text text-h2 font-semibold leading-[1.1] tracking-tight text-transparent">
             {t.testimonials.title}
           </h2>
 
-          <p className="mt-5 max-w-xl text-pretty text-base leading-7 text-zinc-600 sm:text-lg sm:leading-8">
+          <p className="mt-5 max-w-xl text-pretty text-body leading-7 text-zinc-600">
             {t.testimonials.description}
           </p>
         </div>
 
         {/* ✏️ تعديل: حالة التحميل */}
-        {loading && <p className="text-center text-zinc-500">{lang === "ar" ? "جاري التحميل..." : "Loading..."}</p>}
+        {loading && <p className="text-body text-center text-zinc-500">{lang === "ar" ? "جاري التحميل..." : "Loading..."}</p>}
 
         {/* Testimonial cards */}
         <div className="grid gap-5 md:grid-cols-3">
@@ -80,7 +80,7 @@ export default function Testimonials() {
             >
               <Stars rating={item.rating ?? 5} label={t.testimonials.rating(item.rating ?? 5)} />
 
-              <blockquote className="mb-8 mt-6 text-pretty text-base leading-7 text-zinc-800 sm:text-lg sm:leading-8">
+              <blockquote className="mb-8 mt-6 text-pretty text-body leading-7 text-zinc-800">
                 “{pick(item, "comment", lang)}”
               </blockquote>
 
@@ -93,8 +93,8 @@ export default function Testimonials() {
                 />
 
                 <div>
-                  <p className="text-sm font-semibold text-zinc-950">{pick(item, "name", lang)}</p>
-                  <p className="mt-0.5 text-sm text-zinc-500">{pick(item, "role", lang)}</p>
+                  <p className="text-body font-semibold text-zinc-950">{pick(item, "name", lang)}</p>
+                  <p className="mt-0.5 text-body text-zinc-500">{pick(item, "role", lang)}</p>
                 </div>
               </footer>
             </article>
