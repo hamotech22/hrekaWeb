@@ -34,7 +34,8 @@ const columns = [
   },
 ];
 
-const Strapi_URL = "http://localhost:1337/api/galelery?populate=*";
+const STRAPI_URL = import.meta.env.VITE_STRAPI_URL;
+const api = `${STRAPI_URL}/api/galelery?populate=*`;
 
 function Card({ src, alt, ratio }) {
   return (
@@ -54,7 +55,7 @@ export default function Hero() {
   const [gallery, setGallery] = useState([]);
 
   useEffect(() => {
-    axios.get(Strapi_URL).then((res) => {
+    axios.get(api).then((res) => {
       const data = res.data.data;
 
       setGallery([data.image_1, data.image_2, data.image_3, data.image_4, data.image_5, data.image_6, data.image_7, data.image_8]);

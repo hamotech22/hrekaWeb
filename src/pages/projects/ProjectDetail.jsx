@@ -4,7 +4,8 @@ import { Link, useParams, Navigate } from "react-router-dom";
 import ProjectCard from "./ProjectCard";
 import useLanguage from "../../context/useLanguage";
 
-const STRAPI_URL = "http://localhost:1337";
+// const STRAPI_URL = "http://localhost:1337";
+const STRAPI_URL = import.meta.env.VITE_STRAPI_URL;
 
 const focusRing = "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff4d00]";
 

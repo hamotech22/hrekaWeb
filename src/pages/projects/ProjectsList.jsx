@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import ProjectCard from "./ProjectCard";
 import useLanguage from "../../context/useLanguage";
+// const STRAPI_URL = "http://localhost:1337";
 
-const STRAPI_URL = "http://localhost:1337";
+
+const STRAPI_URL = import.meta.env.VITE_STRAPI_URL;
 
 export default function ProjectsList() {
   const { t } = useLanguage();

@@ -18,6 +18,7 @@ import ProjectDetail from "./pages/projects/ProjectDetail";
 import Services from "./pages/services/Services";
 // import ServiceDetail from "./pages/services/ServiceDetail";
 import Testimonials from "./pages/testimonials/Testimonials";
+import NotFound from "./pages/notFound/NotFound";
 import ScrollToTop from "./components/scrollToTop/ScrollToTop";
 import BackToTop from "./components/backToTop/BackToTop";
 
@@ -64,6 +65,7 @@ export default function App() {
         {/* <Route path="/services/:slug" element={<ServiceDetail />} /> */}
         <Route path="/testimonials" element={<Testimonials />} />
         <Route path="/cta" element={<CTA />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
 
       <BackToTop />

@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import useLanguage from "../../context/useLanguage";
 
-const STRAPI_URL = "http://localhost:1337";
+// const STRAPI_URL = "http://localhost:1337";
+
+const STRAPI_URL = import.meta.env.VITE_STRAPI_URL;
+
 const FALLBACK = { email: "you@example.com", whatsapp: "201012345678" };
 
 export default function FAQ() {

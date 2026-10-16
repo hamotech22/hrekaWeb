@@ -7,7 +7,9 @@ import { LangContext } from "../../context/LangContext";
 import blackLogo from "../../assets/images/Design/Logo_Personal Logo - Black.svg";
 
 // ✏️ تعديل: عنوان Strapi
-const STRAPI_URL = "http://localhost:1337";
+// const STRAPI_URL = "http://localhost:1337";
+
+const STRAPI_URL = import.meta.env.VITE_STRAPI_URL;
 
 const navItems = [
   { key: "home", href: "/" },

@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import useLanguage from "../../context/useLanguage";
 import whiteLogo from "../../assets/images/Design/Logo_Personal Logo - White.svg";
 
+const STRAPI_URL = import.meta.env.VITE_STRAPI_URL;
+
 const navLinks = [
   { key: "home", href: "/" },
   { key: "services", href: "/services" },
@@ -22,8 +24,8 @@ const legalLinks = [
 const focusRing =
   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff4d00]";
 
-const SOCIALS_URL = "http://localhost:1337/api/socials";
-const CONTACT_URL = "http://localhost:1337/api/my-contact";
+const SOCIALS_URL = `${STRAPI_URL}/api/socials`;
+const CONTACT_URL = `${STRAPI_URL}/api/my-contact`;
 
 export default function Footer() {
   const { t, language, lang } = useLanguage();

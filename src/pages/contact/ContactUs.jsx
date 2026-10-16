@@ -4,7 +4,9 @@ import toast from "react-hot-toast";
 import BTN from "../../components/button/BTN";
 import useLanguage from "../../context/useLanguage";
 
-const STRAPI_URL = "http://localhost:1337";
+// const STRAPI_URL = "http://localhost:1337";
+
+const STRAPI_URL = import.meta.env.VITE_STRAPI_URL;
 const WEB3FORMS_KEY = "603986f0-c58d-41ef-a5a6-92522ec5c769";
 const SITE_NAME = "osama.com ";
 
@@ -79,9 +81,7 @@ export default function ContactUs() {
       formRef.current?.reset();
     } catch (err) {
       console.error(t.contact.sendError, err);
-      const isStrapiUnavailable =
-        err.config?.url?.startsWith(STRAPI_URL) &&
-        (!err.response || err.response.status >= 500);
+      const isStrapiUnavailable = err.config?.url?.startsWith(STRAPI_URL) && (!err.response || err.response.status >= 500);
       if (!isStrapiUnavailable) toast.error(t.contact.error);
     } finally {
       setSending(false);
